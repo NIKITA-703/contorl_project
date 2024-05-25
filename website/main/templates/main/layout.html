@@ -10,25 +10,26 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 <body>
-
     <aside>
         <img src="{% static 'main/img/DJ.png' %}" alt="Logo">
         <span class="logo">Management</span>
         <h3>Навигация</h3>
-        <ul>
-            <a href="{% url 'home' %}" style="text-decoration: none;"><li><i class="bi bi-house-door"></i> Главная</li></a>
-            <a href="{% url 'about' %}" style="text-decoration: none;"><li><i class="bi bi-person-fill"></i> Про нас</li></a>
-            <a href="{% url 'news_home' %}" style="text-decoration: none;"><li><i class="bi bi-newspaper"></i> Новости</li></a>
-            <a href="" style="text-decoration: none;"><li><i class="bi bi-telegram"></i> Контакты</li></a>
-            <a href="{% url 'create' %}" style="text-decoration: none;"><li><button class="btn btn-info"><i class="bi bi-plus-circle-fill"></i> Создать запись </button></li></a>
-
-        </ul>
-    </aside>
+            <ul>
+                <a href="{% url 'home' %}" style="text-decoration: none;"><li><i class="bi bi-house-door"></i> Главная</li></a>
+                <a href="{% url 'about' %}" style="text-decoration: none;"><li><i class="bi bi-person-fill"></i> Про нас</li></a>
+                <a href="{% url 'news_home' %}" style="text-decoration: none;"><li><i class="bi bi-newspaper"></i> Новости</li></a>
+                <a href="" style="text-decoration: none;"><li><i class="bi bi-telegram"></i> Контакты</li></a>
+                <a href="{% url 'create' %}" style="text-decoration: none;"><li><button class="btn btn-info"><i class="bi bi-plus-circle-fill"></i> Создать запись </button></li></a>
+            </ul>
+</aside>
+    
+    <div id="resizer"></div> <!-- Добавляем полосу для перетаскивания -->
     
     <main>
         {% block content %}
         {% endblock %}
     </main>
 
+    <script src="{% static 'main/js/resize.js' %}"></script> <!-- Подключаем скрипт -->
 </body>
 </html>

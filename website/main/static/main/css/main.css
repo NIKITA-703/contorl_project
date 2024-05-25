@@ -1,37 +1,96 @@
 body {
     background: #2c2c2c;
+    display: flex;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;  /*Предотвращаем скроллинг */
 }
 
 aside {
-    float: left;
     background: #181818;
-    width: 500px;
+    width: 420px;
     padding: 2.5%;
     height: 100vh;
     color: #fff;
     border-right: 5px solid #4d4d4d;
     position: fixed;
+    box-sizing: border-box;
+    overflow: hidden; /* Предотвращаем выход контента за границы */
+    /*user-select: none;  Отключаем выделение текста */
+}
 
+#resizer {
+    width: 10px;
+    background: #4d4d4d;
+    cursor: ew-resize;
+    height: 100vh;
+    position: fixed;
+    left: 420px; /* Начальная позиция полосы */
+    top: 0;
+    user-select: none; /* Отключаем выделение текста */
+}
+
+main {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    background: #2c2c2c;
+    margin-left: 430px; /* Начальное смещение основного контента */
+    box-sizing: border-box;
+}
+
+main .features {
+    color: #fff;
+    margin: auto;
+    text-align: center;
+    width: 100%;
+}
+
+main .features h1 {
+    font-size: 50px;
+}
+
+main .features p {
+    max-width: 400px;
+    margin: 20px auto;
+}
+
+.alert-warning {
+    width: 400px;
+    margin: 20px auto;
+    text-align: center;
+}
+
+form {
+    width: 500px;
+    margin: 50px auto;
 }
 
 aside img {
-    width: 250px;
-    float: left;
+    width: 100%; /* Изменяем размер логотипа */
+    max-width: 250px;
 }
 
 aside .logo {
     font-size: 40px;
     margin-left: 10px;
     font-weight: bold;
+    word-wrap: break-word; /* Переносим длинные слова */
+    word-break: break-all; /* Переносим слова по любой точке */
+    overflow: hidden; /* Предотвращаем выход текста за границы */
 }
-
 
 aside h3 {
     margin-top: 25px;
     font-size: 36px;
 }
 
-aside ul {list-style: none}
+aside ul {
+    list-style: none;
+    padding: 0; /* Убираем отступы */
+    margin: 0; /* Убираем отступы */
+}
+
 aside ul li {
     color: #fff;
     display: block;
@@ -44,39 +103,4 @@ aside ul li:hover, aside ul a:hover {
     color: #eb5959;
     text-decoration: none;
     transform: scale(1.05);
-}
-
-main {
-    display: flex;
-    align-items: center;
-    margin-left: 500px;
- }
-
-main .features {
-    color: #fff;
-    float: left;
-    margin-top: 100px;
-    text-align: center;
-    width: 100%;
-
-
- }
-
- main .features h1 {font-size: 50px; f}
- main .features p {max-width: 400px; margin: 20px auto}
-
-
-.alert-warning {
-    float: left;
-    clear: both;
-    width: 400px;
-    margin: 20px 40.3%;
-    text-align: center;
-}
-
-
-form {
-    margin-left: 32%;
-    width: 500px;
-    margin-top: 50px;
 }
