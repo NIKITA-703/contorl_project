@@ -16,15 +16,6 @@ def about(request):
     return render(request, 'main/about.html')
 
 
-@login_required
-def profile_view(request):
-    return render(request, 'main/profile.html')
-
-# def login(request):
-#     error = ''
-#     if request.method == "POST":
-#         form =
-
 
 def test(request):
     return render(request, 'main/test.html')

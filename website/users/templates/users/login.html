@@ -1,4 +1,5 @@
 {% extends 'main/layout.html' %}
+{% load static %}
 
 {% block title  %} Вход {% endblock %}
 
@@ -13,11 +14,11 @@
 <!--            {{ form.full_text }} <br>-->
 <!--            {{ form.date }} <br>-->
 <!--            <button class="btn btn-success" type="submit"> Добавить статью</button><br>-->
-<!--            <span>{{ error }}</span><br>-->
-<!--            <input type="text" placeholder="Логин" class="form-control">-->
-<!--            <input type="password" placeholder="Пароль" class="form-control">-->
-<!--            <button class="btn btn-success" type="submit">Войти</button>-->
-            {{ form.as_p }}
+            <span>{{ error }}</span><br>
+            <input type="text" placeholder="Логин" class="form-control"> <br>
+            <input type="password" placeholder="Пароль" class="form-control"> <br>
+            <button class="btn btn-success" type="submit">Войти</button>
+<!--            {{ form.as_p }}-->
         </form>
 
     </div>
