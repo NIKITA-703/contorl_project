@@ -1,27 +1,30 @@
+<!-- profile.html -->
 {% extends 'main/layout.html' %}
 {% load static %}
 
-{% block title %} Профиль {% endblock %}
+{% block title %}Профиль{% endblock %}
 
 {% block content %}
-    <div class="profile-container">
-        <div class="profile-header">
-            <h1>Профиль</h1>
-            <a href="#">Загрузить фото</a>
-            <a href="#">Удалить фото</a>
-        </div>
-        <div class="profile-info">
-            <h2>Имя пользователя</h2>
-            <p>NIKITA-703</p>
-            <a href="#">Изменить пароль</a>
-            <a href="#">Изменить email</a>
-            <a href="#">Настройки уведомлений</a>
-            <a href="#">Интеграция с Google Календарь</a>
-        </div>
-        <div class="profile-footer">
-            <a href="#">Изменить аккаунт</a>
-            <a href="#">Скачать приложение для вашего ОС</a>
-            <a href="#">Другие ОС</a>
-        </div>
+<div class="profile-container">
+    <div class="profile-header">
+        <h1>Профиль</h1>
     </div>
+    <div class="profile-info">
+        <img src="/path/to/user/photo.jpg" alt="User Photo" class="profile-photo">
+        <h2>Имя пользователя</h2>
+        <p>Фамилия</p>
+        <p>email@example.com</p>
+    </div>
+    <div class="profile-edit">
+        <form method="post">
+            {% csrf_token %}
+            <input type="file" class="form-control" placeholder="Загрузить фото"> <br>
+            <input type="text" class="form-control" placeholder="Имя"> <br>
+            <input type="text" class="form-control" placeholder="Фамилия"> <br>
+            <input type="email" class="form-control" placeholder="Email"> <br>
+            <input type="password" class="form-control" placeholder="Пароль"> <br>
+            <button class="btn btn-success" type="submit">Сохранить</button>
+        </form>
+    </div>
+</div>
 {% endblock %}

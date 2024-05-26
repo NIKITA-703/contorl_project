@@ -9,8 +9,8 @@
         <form method="post">
             {% csrf_token %}
             <span>{{ error }}</span><br>
-            <input type="text" placeholder="Логин" class="form-control"> <br>
-            <input type="password" placeholder="Пароль" class="form-control"> <br>
+            <input type="text" placeholder="Логин" class="form-control" required> <br>
+            <input type="password" placeholder="Пароль" class="form-control" required> <br>
             <button class="btn btn-success" type="submit">Войти</button>
         </form>
     </div>
