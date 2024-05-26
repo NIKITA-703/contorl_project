@@ -23,38 +23,55 @@ body:before {
 }
 
 .header {
-    /*background: rgba(24, 24, 24, 0.8);  Полупрозрачный фон */
     background: rgba(52, 52, 52, 0.72);  
     backdrop-filter: blur(40px); /* Эффект размытия */
     color: #fff;
+
     width: calc(100% - 300px); /* Ширина за вычетом фиксированной ширины aside */
-    padding: 10px 20px;
+    padding: 20px 20px;
     position: fixed;
     top: 0;
     left: 300px; /* Смещение хедера вправо на фиксированную ширину aside */
     z-index: 1000;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
     transition: width 0.3s, left 0.3s; /* Плавный переход */
+
 }
 
-.header .logo {
-    font-size: 24px;
-    font-weight: bold;
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    list-style: none;
+
+    transition: transform .6s ease;
+    font-size: 17px;
 }
 
-.header nav a {
+.other {
+    display: flex;
+    gap: 20px;
+}
+
+.auth-links {
+    display: flex;
+    gap: 20px;
+}
+
+.header nav a, .auth-links a {
     color: #fff;
-    margin-left: 20px;
     text-decoration: none;
 }
 
-.header nav a:hover {
+.header nav a:hover, .auth-links a:hover {
     color: #eb5959;
+    text-decoration: none;
+    transform: scale(1.05);
 }
-
 
 aside {
     background: rgba(52, 52, 52, 0.72);  
@@ -63,26 +80,12 @@ aside {
     padding: 2.5%;
     height: 100vh;
     color: #fff;
-    border-right: 1px solid #FFFFFF99
-;
+    border-right: 1px solid #FFFFFF99;
     position: fixed;
     box-sizing: border-box;
     overflow: auto;
     transition: width 0.3s;  
 } 
-
-/*aside {
-    background: #181818;
-    width: 300px;  
-    padding: 2.5%;
-    height: 100vh;
-    color: #fff;
-    border-right: 5px solid #4d4d4d;
-    position: fixed;
-    box-sizing: border-box;
-    overflow: auto;
-    transition: width 0.3s;  
-}*/
 
 #resizer {
     display: none; /* Скрываем элемент resizer */
@@ -161,8 +164,8 @@ main .background {
 }
 
 main .blur {
-    background: rgba(255, 255, 255, 0.09); 
-    backdrop-filter: blur(3px); 
+    background: rgba(10, 10, 10, 0.1); 
+    backdrop-filter: blur(6px); 
     height: calc(100vh - 60px); /* Высота за вычетом хедера */
     width: 100%;
 }

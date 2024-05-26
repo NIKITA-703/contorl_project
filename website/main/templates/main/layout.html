@@ -11,10 +11,6 @@
 </head>
 <body>
     <aside>
-        <ul>
-            <a href="#"><li><i class="bi bi-person"></i> Войти</li></a>
-            <a href="#"><li><i class="bi bi-person-add"></i> Регистрация</li></a>
-        </ul>
         <h3>Навигация</h3>
         <ul>
             <a href="{% url 'home' %}"><li><i class="bi bi-house-door"></i> Главная</li></a>
@@ -29,12 +25,19 @@
 
     <header class="header">
         <div class="header-content">
-            <a href="#" class="logo">Логотип</a>
-            <nav>
-                <a href="#">Ссылка 1</a>
-                <a href="#">Ссылка 2</a>
-                <a href="#">Ссылка 3</a>
-            </nav>
+<!--            <a href="#" class="logo">Логотип</a>-->
+
+            <div class="other">
+                <nav>
+                    <a href="#">Ссылка 1</a>
+                    <a href="#">Ссылка 2</a>
+                    <a href="#">Ссылка 3</a>
+                </nav>
+            </div>
+            <div class="auth-links">
+                <a href="#"><li><i class="bi bi-person-add"></i> Регистрация</li></a>
+                <a href="#"><li><i class="bi bi-person"></i> Войти</li></a>
+            </div>
         </div>
     </header>
 
