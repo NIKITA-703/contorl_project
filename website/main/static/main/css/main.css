@@ -267,3 +267,46 @@ form {
     padding: 10px; /* Внутренние отступы кнопки */
     font-size: 18px; /* Размер шрифта кнопки */
 }
+
+
+/* Стили для контейнера формы */
+.registration-container {
+    background: #fff; /* Белый фон */
+    border-radius: 8px; /* Радиус скругления углов */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Тень */
+    padding: 40px 20px; /* Внутренние отступы */
+    max-width: 600px; /* Максимальная ширина контейнера */
+    width: 100%; /* Делаем контейнер шириной 100% */
+    position: absolute; /* Позиционирование для отображения поверх всего */
+    text-align: center; /* Выравнивание текста по центру */
+    z-index: 1;
+}
+
+.registration-container h1 {
+    margin-bottom: 30px; /* Отступ снизу */
+    font-size: 28px; /* Размер шрифта заголовка */
+}
+
+.registration-container .form-control {
+    margin-bottom: 20px; /* Отступ снизу */
+    height: 45px; /* Высота полей ввода */
+    font-size: 16px; /* Размер шрифта полей ввода */
+    padding-left: 10px; /* Внутренний отступ слева */
+    width: 100%; /* Ширина полей ввода */
+    box-sizing: border-box; /* Учет внутренних отступов и рамки в ширине */
+}
+
+.registration-container .btn {
+    width: 100%; /* Ширина кнопки 100% */
+    padding: 10px; /* Внутренние отступы кнопки */
+    font-size: 18px; /* Размер шрифта кнопки */
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-group {
+    width: 48%;
+}
