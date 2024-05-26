@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     const onMouseMove = (e) => {
         const newWidth = startWidth + (e.clientX - startX);
-        if (newWidth > 260 && newWidth < 425) { // Ограничиваем размер от 260 до 425 пикселей
+        if (newWidth > 287 && newWidth < 425) { // Ограничиваем размер от 260 до 425 пикселей
             aside.style.width = newWidth + 'px';
             resizer.style.left = newWidth + 'px';
             main.style.marginLeft = (newWidth + 10) + 'px'; // 10px ширина резизера

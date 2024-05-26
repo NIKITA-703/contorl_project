@@ -34,16 +34,44 @@ main {
     display: flex;
     align-items: center;
     flex-grow: 1;
-    background: #2c2c2c;
+/*    background: #2c2c2c;*/
+/*    background-image: url("/static/main/img/mount.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;*/
     margin-left: 430px; /* Начальное смещение основного контента */
     box-sizing: border-box;
 }
+
+
+/*BLUR*/
+main .background {
+  background-image: url("/static/main/img/mount1.jpg");
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  width: 100%;
+}
+
+main .blur {
+  /*background: rgba(255, 255, 255, 0.2); 
+  backdrop-filter: blur(3px); 
+  height: 100vh;
+  width: 100%;*/
+
+  background: rgba(255, 255, 255, 0.2); 
+  backdrop-filter: blur(9px); 
+  height: 100vh;
+  width: 100%;
+}
+/***********/
 
 main .features {
     color: #fff;
     margin: auto;
     text-align: center;
-    width: 100%;
+    width: 88%;
+    position: absolute;
 }
 
 main .features h1 {
@@ -53,6 +81,7 @@ main .features h1 {
 main .features p {
     max-width: 400px;
     margin: 20px auto;
+    text-align: center;
 }
 
 .alert-warning {
@@ -100,6 +129,20 @@ aside ul li {
 }
 
 aside ul li:hover, aside ul a:hover {
+    color: #eb5959;
+    text-decoration: none;
+    transform: scale(1.05);
+}
+
+aside a {
+    text-decoration: none;
+    /*margin-top: 25px;
+    font-size: 29px;
+    list-style: none;
+    color: #fff;*/
+}
+
+aside a li:hover {
     color: #eb5959;
     text-decoration: none;
     transform: scale(1.05);
