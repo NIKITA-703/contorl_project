@@ -1,36 +1,46 @@
 // static/main/js/resize.js
 
-document.addEventListener('DOMContentLoaded', (event) => {
-    const aside = document.querySelector('aside');
-    const resizer = document.getElementById('resizer');
-    const main = document.querySelector('main');
-    const body = document.body;
+const resizer = document.getElementById('resizer');
+const sidebar = document.querySelector('aside');
+const header = document.querySelector('.header');
+const main = document.querySelector('main');
 
-    let startX;
-    let startWidth;
+let isResizing = false;
 
-    const onMouseMove = (e) => {
-        const newWidth = startWidth + (e.clientX - startX);
-        if (newWidth > 287 && newWidth < 425) { // Ограничиваем размер от 260 до 425 пикселей
-            aside.style.width = newWidth + 'px';
-            resizer.style.left = newWidth + 'px';
-            main.style.marginLeft = (newWidth + 10) + 'px'; // 10px ширина резизера
-        }
-    };
-
-    const onMouseUp = () => {
-        document.removeEventListener('mousemove', onMouseMove);
-        document.removeEventListener('mouseup', onMouseUp);
-        body.classList.remove('no-select');
-    };
-
-    const onMouseDown = (e) => {
-        startX = e.clientX;
-        startWidth = parseInt(document.defaultView.getComputedStyle(aside).width, 10);
-        document.addEventListener('mousemove', onMouseMove);
-        document.addEventListener('mouseup', onMouseUp);
-        body.classList.add('no-select');
-    };
-
-    resizer.addEventListener('mousedown', onMouseDown);
+resizer.addEventListener('mousedown', (e) => {
+    isResizing = true;
+    document.addEventListener('mousemove', resize);
+    document.addEventListener('mouseup', stopResize);
 });
+
+function resize(e) {
+    if (isResizing) {
+        const width = e.clientX - sidebar.getBoundingClientRect().left;
+        if (width > 287 && width < 425) { // Ограничиваем размер от 287 до 425 пикселей
+            sidebar.style.width = width + 'px';
+            resizer.style.left = width + 'px';
+            header.style.width = `calc(100% - ${width}px)`;
+            header.style.left = width + 'px';
+            main.style.marginLeft = width + 'px';
+        }
+    }
+}
+
+function stopResize() {
+    isResizing = false;
+    document.removeEventListener('mousemove', resize);
+    document.removeEventListener('mouseup', stopResize);
+    adjustHeaderWidth();
+}
+
+// Initial header width adjustment
+function adjustHeaderWidth() {
+    const width = sidebar.getBoundingClientRect().width;
+    header.style.width = `calc(100% - ${width}px)`;
+    header.style.left = width + 'px';
+    main.style.marginLeft = width + 'px';
+    resizer.style.left = width + 'px'; // Добавляем установку позиции resizer
+}
+
+window.addEventListener('load', adjustHeaderWidth);
+window.addEventListener('resize', adjustHeaderWidth);

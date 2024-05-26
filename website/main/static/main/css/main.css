@@ -1,98 +1,74 @@
+/* static/main/css/main.css */
+
 body {
     background: #2c2c2c;
     display: flex;
     height: 100vh;
     margin: 0;
-    overflow: hidden;  /*Предотвращаем скроллинг */
+    overflow: hidden;  /* Предотвращаем скроллинг */
+    position: relative;
+}
+
+body:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("/static/main/img/mount1.jpg");
+    background-size: cover;
+    background-position: center;
+    z-index: -1;  /* Помещаем фон под контент */
+}
+
+.header {
+    background: rgba(24, 24, 24, 0.8); /* Полупрозрачный фон */
+    backdrop-filter: blur(10px); /* Эффект размытия */
+    color: #fff;
+    width: calc(100% - 300px); /* Ширина за вычетом фиксированной ширины aside */
+    padding: 10px 20px;
+    position: fixed;
+    top: 0;
+    left: 300px; /* Смещение хедера вправо на фиксированную ширину aside */
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    transition: width 0.3s, left 0.3s; /* Плавный переход */
+}
+
+.header .logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.header nav a {
+    color: #fff;
+    margin-left: 20px;
+    text-decoration: none;
+}
+
+.header nav a:hover {
+    color: #eb5959;
 }
 
 aside {
     background: #181818;
-    width: 420px;
+    width: 300px; /* Фиксированная ширина */
     padding: 2.5%;
     height: 100vh;
     color: #fff;
     border-right: 5px solid #4d4d4d;
     position: fixed;
     box-sizing: border-box;
-    overflow: hidden; /* Предотвращаем выход контента за границы */
-    /*user-select: none;  Отключаем выделение текста */
+    overflow: auto;
+    transition: width 0.3s; /* Плавный переход */
 }
 
 #resizer {
-    width: 10px;
-    background: #4d4d4d;
-    cursor: ew-resize;
-    height: 100vh;
-    position: fixed;
-    left: 420px; /* Начальная позиция полосы */
-    top: 0;
-    user-select: none; /* Отключаем выделение текста */
-}
-
-main {
-    display: flex;
-    align-items: center;
-    flex-grow: 1;
-/*    background: #2c2c2c;*/
-/*    background-image: url("/static/main/img/mount.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;*/
-    margin-left: 430px; /* Начальное смещение основного контента */
-    box-sizing: border-box;
-}
-
-
-/*BLUR*/
-main .background {
-  background-image: url("/static/main/img/mount1.jpg");
-  background-position: bottom;
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 100vh;
-  width: 100%;
-}
-
-main .blur {
-  /*background: rgba(255, 255, 255, 0.2); 
-  backdrop-filter: blur(3px); 
-  height: 100vh;
-  width: 100%;*/
-
-  background: rgba(255, 255, 255, 0.2); 
-  backdrop-filter: blur(9px); 
-  height: 100vh;
-  width: 100%;
-}
-/***********/
-
-main .features {
-    color: #fff;
-    margin: auto;
-    text-align: center;
-    width: 88%;
-    position: absolute;
-}
-
-main .features h1 {
-    font-size: 50px;
-}
-
-main .features p {
-    max-width: 400px;
-    margin: 20px auto;
-    text-align: center;
-}
-
-.alert-warning {
-    width: 400px;
-    margin: 20px auto;
-    text-align: center;
-}
-
-form {
-    width: 500px;
-    margin: 50px auto;
+    display: none; /* Скрываем элемент resizer */
 }
 
 aside img {
@@ -136,14 +112,69 @@ aside ul li:hover, aside ul a:hover {
 
 aside a {
     text-decoration: none;
-    /*margin-top: 25px;
-    font-size: 29px;
-    list-style: none;
-    color: #fff;*/
 }
 
 aside a li:hover {
     color: #eb5959;
     text-decoration: none;
     transform: scale(1.05);
+}
+
+main {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    margin-left: 310px; /* Смещение основного контента с учетом фиксированной ширины aside */
+    margin-top: 60px; /* Отступ вниз на высоту хедера */
+    box-sizing: border-box;
+    transition: margin-left 0.3s; /* Плавный переход */
+    opacity: 0; /* Изначально скрываем основной контент */
+}
+
+body.loaded main {
+    opacity: 1; /* Показываем основной контент после загрузки страницы */
+    transition: opacity 0.3s; /* Плавный переход */
+}
+
+/*BLUR*/
+main .background {
+    background: transparent; /* Убираем фоновое изображение */
+    height: calc(100vh - 60px); /* Высота за вычетом хедера */
+    width: 100%;
+}
+
+main .blur {
+    background: rgba(255, 255, 255, 0.2); 
+    backdrop-filter: blur(9px); 
+    height: calc(100vh - 60px); /* Высота за вычетом хедера */
+    width: 100%;
+}
+
+main .features {
+    color: #fff;
+    margin: auto;
+    text-align: center;
+    width: 88%;
+    position: absolute;
+}
+
+main .features h1 {
+    font-size: 50px;
+}
+
+main .features p {
+    max-width: 400px;
+    margin: 20px auto;
+    text-align: center;
+}
+
+.alert-warning {
+    width: 400px;
+    margin: 20px auto;
+    text-align: center;
+}
+
+form {
+    width: 500px;
+    margin: 50px auto;
 }

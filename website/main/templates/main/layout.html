@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
@@ -11,36 +11,48 @@
 </head>
 <body>
     <aside>
-<!--        <img src="{% static 'main/img/DJ.png' %}" alt="Logo">-->
-<!--        <span class="logo">Management</span>-->
         <ul>
-            <a href=" "><li><i class="bi bi-person"></i> Войти</li></a>
-            <a href=" "><li><i class="bi bi-person-add"></i> Регистрация</li></a>
+            <a href="#"><li><i class="bi bi-person"></i> Войти</li></a>
+            <a href="#"><li><i class="bi bi-person-add"></i> Регистрация</li></a>
         </ul>
         <h3>Навигация</h3>
-            <ul>
-                <a href="{% url 'home' %}" ><li><i class="bi bi-house-door"></i> Главная</li></a>
-                <a href="{% url 'about' %}"><li><i class="bi bi-person-fill"></i> Про нас</li></a>
-                <a href="{% url 'news_home' %}"><li><i class="bi bi-newspaper"></i> Новости</li></a>
-                <a href=""><li><i class="bi bi-telegram"></i> Контакты</li></a>
-                <a href="{% url 'create' %}"><li><button class="btn btn-info"><i class="bi bi-plus-circle-fill"></i> Создать запись </button></li></a>
-            </ul>
-</aside>
-    
-    <div id="resizer"></div> <!-- Добавляем полосу для перетаскивания -->
-    
+        <ul>
+            <a href="{% url 'home' %}"><li><i class="bi bi-house-door"></i> Главная</li></a>
+            <a href="{% url 'about' %}"><li><i class="bi bi-person-fill"></i> Про нас</li></a>
+            <a href="{% url 'news_home' %}"><li><i class="bi bi-newspaper"></i> Новости</li></a>
+            <a href="#"><li><i class="bi bi-telegram"></i> Контакты</li></a>
+            <a href="{% url 'create' %}"><li><button class="btn btn-info"><i class="bi bi-plus-circle-fill"></i> Создать запись </button></li></a>
+        </ul>
+    </aside>
+
+    <div id="resizer" style="display: none;"></div> <!-- Скрываем элемент resizer -->
+
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo">Логотип</a>
+            <nav>
+                <a href="#">Ссылка 1</a>
+                <a href="#">Ссылка 2</a>
+                <a href="#">Ссылка 3</a>
+            </nav>
+        </div>
+    </header>
+
     <main>
         <div class="background">
             <div class="blur"></div>
         </div>
 
-        <div class="header"></div>
-
         {% block content %}
-
         {% endblock %}
     </main>
 
-    <script src="{% static 'main/js/resize.js' %}"></script> <!-- Подключаем скрипт -->
+    <script>
+        // Добавляем класс 'loaded' к body после полной загрузки страницы
+        window.addEventListener('load', function() {
+            document.body.classList.add('loaded');
+        });
+    </script>
+    <script src="{% static 'main/js/resize.js' %}"></script>
 </body>
 </html>
