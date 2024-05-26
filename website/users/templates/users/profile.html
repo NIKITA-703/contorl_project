@@ -1,11 +1,27 @@
 {% extends 'main/layout.html' %}
 {% load static %}
 
+{% block title %} Профиль {% endblock %}
 
-{% block title  %}Profile{% endblock %}
-
-
-{% block content  %}
-
-
+{% block content %}
+    <div class="profile-container">
+        <div class="profile-header">
+            <h1>Профиль</h1>
+            <a href="#">Загрузить фото</a>
+            <a href="#">Удалить фото</a>
+        </div>
+        <div class="profile-info">
+            <h2>Имя пользователя</h2>
+            <p>NIKITA-703</p>
+            <a href="#">Изменить пароль</a>
+            <a href="#">Изменить email</a>
+            <a href="#">Настройки уведомлений</a>
+            <a href="#">Интеграция с Google Календарь</a>
+        </div>
+        <div class="profile-footer">
+            <a href="#">Изменить аккаунт</a>
+            <a href="#">Скачать приложение для вашего ОС</a>
+            <a href="#">Другие ОС</a>
+        </div>
+    </div>
 {% endblock %}
