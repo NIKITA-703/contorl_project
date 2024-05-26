@@ -9,12 +9,14 @@
         <form method="post" action="{% url 'user:login' %}">
             {% csrf_token %}
             <span>{{ error }}</span><br>
-            {{ form }}
-<!--            {% comment %}-->
+            {% for item in form %}
+                {{ item }}            
+            {% endfor %}
+
 <!--            <input type="text" placeholder="Логин" class="form-control" required> <br>-->
+            {% comment %} {{ form.username }} {% endcomment %}
 <!--            <input type="password" placeholder="Пароль" class="form-control" required> <br>-->
-<!--            -->
-<!--            {% endcomment %}-->
+            {% comment %} {{ form.password }} {% endcomment %}
             <button class="btn btn-success" type="submit">Войти</button>
         </form>
     </div>
