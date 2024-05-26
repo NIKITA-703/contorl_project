@@ -6,7 +6,7 @@
 {% block content %}
     <div class="login-container">
         <h1>Войти</h1>
-        <form method="post">
+        <form method="post" action="{% url 'user:login' %}">
             {% csrf_token %}
             <span>{{ error }}</span><br>
             <input type="text" placeholder="Логин" class="form-control" required> <br>
