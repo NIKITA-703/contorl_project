@@ -4,3 +4,6 @@ https://getbootstrap.com/docs/5.0/content/reboot/#user-input
 
 icons
 https://icons.getbootstrap.com/
+
+django
+https://metanit.com/python/django/1.4.php

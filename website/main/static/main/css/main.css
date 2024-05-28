@@ -1,5 +1,3 @@
-/* static/main/css/main.css */
-
 /* Основные стили */
 body {
     background: #2c2c2c;
@@ -164,28 +162,62 @@ main .blur {
 }
 
 main .features {
-    color: #fff;
-    margin: auto;
-    text-align: center;
-    width: 88%;
+    background: #fff; /* Белый фон */
+    border-radius: 8px; /* Радиус скругления углов */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Тень */
+    padding: 40px 20px 10px; /* Внутренние отступы */
+    max-width: 800px; /* Максимальная ширина контейнера */
+    width: 100%; /* Делаем контейнер шириной 100% */
+    text-align: center; /* Выравнивание текста по центру */
+    color: #000; /* Цвет текста */
+    margin: auto; /* Выравнивание по центру */
     position: absolute;
 }
 
-main .features h1 {
-    font-size: 50px;
+.features h1 {
+    margin-bottom: 30px; /* Отступ снизу */
+    font-size: 28px; /* Размер шрифта заголовка */
 }
 
-main .features p {
-    max-width: 400px;
-    margin: 20px auto;
-    text-align: center;
+.features .form-group {
+    margin-bottom: 20px; /* Отступ снизу */
 }
 
-.alert-warning {
+.features .form-control {
+    height: 45px; /* Высота полей ввода */
+    font-size: 16px; /* Размер шрифта полей ввода */
+    padding-left: 10px; /* Внутренний отступ слева */
+    width: 100%; /* Ширина полей ввода */
+    box-sizing: border-box; /* Учет внутренних отступов и рамки в ширине */
+}
+
+.features .btn {
+    width: 60%; /* Ширина кнопки 100% */
+    padding: 10px; /* Внутренние отступы кнопки */
+    font-size: 18px; /* Размер шрифта кнопки */
+}
+
+.features .btn-del-info .btn {
+    width: 23%; /* Ширина кнопки 100% */
+    padding: 10px; /* Внутренние отступы кнопки */
+    font-size: 18px; /* Размер шрифта кнопки */
+}
+
+.alert-primary {
     width: 400px;
     margin: 20px auto;
     text-align: center;
 }
+
+.form-group {
+    width: 100%;
+}
+
+.features form {
+    display: flex;
+    justify-content: space-between;
+} 
+
 
 form {
     width: 100%; /* Делаем форму шириной 100% */
@@ -307,6 +339,3 @@ form {
     justify-content: space-between;
 }
 
-.form-group {
-    width: 48%;
-}
