@@ -20,9 +20,7 @@
             <a href="{% url 'create' %}"><li><button class="btn btn-info"><i class="bi bi-plus-circle-fill"></i> Создать запись </button></li></a>
         </ul>
     </aside>
-
     <div id="resizer" style="display: none;"></div> <!-- Скрываем элемент resizer -->
-
     <header class="header">
         <div class="header-content">
 <!--            <a href="#" class="logo">Логотип</a>-->
@@ -45,7 +43,6 @@
         <div class="background">
             <div class="blur"></div>
         </div>
-
         {% block content %}
         {% endblock %}
     </main>

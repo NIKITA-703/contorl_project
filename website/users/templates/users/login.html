@@ -8,14 +8,21 @@
         <h1>Войти</h1>
         <form method="post" action="{% url 'user:login' %}">
             {% csrf_token %}
-            <span>{{ error }}</span><br>
+<!--            <span>{{ error }}</span><br>-->
+
+
+            <input type="text" placeholder="Логин" name="username" id="id_username" class="form-control" required> <br>
+            <input type="password" placeholder="Пароль" name="password" id="id_password" class="form-control" required> <br>
+
+            {% comment %}
             {% for item in form %}
                 {{ item }}
             {% endfor %}
+            {% endcomment %}
 
-<!--            <input type="text" placeholder="Логин" class="form-control" required> <br>-->
+
             {% comment %} {{ form.username }} {% endcomment %}
-<!--            <input type="password" placeholder="Пароль" class="form-control" required> <br>-->
+
             {% comment %} {{ form.password }} {% endcomment %}
             <button class="btn btn-success" type="submit">Войти</button>
         </form>
