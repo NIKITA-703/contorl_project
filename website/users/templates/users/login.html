@@ -8,7 +8,7 @@
         <h1>Войти</h1>
         <form method="post" action="{% url 'user:login' %}">
             {% csrf_token %}
-<!--            <span>{{ error }}</span><br>-->
+<!--            <span>{{ error }}</span><br>  -->
 
 
             <input type="text" placeholder="Логин" name="username" id="id_username" class="form-control" required> <br>

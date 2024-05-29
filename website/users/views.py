@@ -1,10 +1,10 @@
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from .forms import UserLoginForm
+from .forms import UserLoginForm, UserRegistrationForm
 
 
 # Create your views here.
@@ -31,8 +31,18 @@ def login(request):
 
 
 def registration(request):
+    if request.method == 'POST':
+        form = UserRegistrationForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            user = form.instance
+            auth.login(request, user)
+            return HttpResponseRedirect(reverse('main:home'))
+    else:
+        form = UserRegistrationForm()
     context = {
-        'title': 'Registration - Регистрация'
+        'title': 'Registration - Регистрация',
+        'form': form,
     }
     return render(request, 'users/registration.html', context)
 
@@ -44,7 +54,8 @@ def profile(request):
     return render(request, 'users/profile.html', context)
 
 
-def logout(request):
-    ...
+def logout(request):  # <li><a class="dropdown-item  text-white" href="{% url "user:logout" %}">Выйти</a></li>
+    auth.logout(request)
+    return redirect(reverse('main:home'))
 
 
