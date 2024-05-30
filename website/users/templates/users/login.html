@@ -9,7 +9,9 @@
         <form method="post" action="{% url 'user:login' %}">
             {% csrf_token %}
 <!--            <span>{{ error }}</span><br>  -->
-
+            {% if request.GET.nex %}
+                <input type="hidden" name="text" value="{{ request.GET.next }}">
+            {% endif %}
 
             <input type="text" placeholder="Логин" name="username" id="id_username" class="form-control" autofocus
                    value="{{ forms.username.value }}"
