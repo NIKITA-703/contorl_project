@@ -10,9 +10,7 @@
         <h1>Профиль</h1>
     </div>
     <div class="profile-info">
-        <h2>Имя пользователя</h2>
-        <p>Фамилия</p>
-        <p>email@example.com</p>
+
     </div>
     <div class="profile-edit">
         <form action="{% url 'users:profile' %}" method="post" enctype="multipart/form-data">
@@ -24,40 +22,48 @@
                 <img src="{% static 'users/img/profile.png' %}" alt="User Photo" style="max-width: 150px;" class="profile-photo">
              {% endif %}
 
-            <input type="file" class="form-control" placeholder="Загрузить фото" id="id_image" name="image" accept="image/*"> <br>
+            <h2>{{ form.username.value }}</h2>
+            <p>{{ form.last_name.value }}</p>
+            <p>{{ form.email.value }}</p>
+
+            <input type="file" class="form-control" placeholder="Загрузить фото" id="id_image" name="image" accept="image/*">
             {% if form.image.errors %}
                 <div class="alert alert-danger alert-dismissible fade show">{{form.image.errors}}</div>
             {% endif %}
 
+            <label for="id_username" class="form-label">Имя пользователя</label>
             <input type="text" class="form-control" placeholder="Имя пользователя"
                    id="id_username"
                    name="username"
-                   value="{{ form.username.value }}"> <br>
+                   value="{{ form.username.value }}">
             {% if form.username.errors %}
                 <div class="alert alert-danger alert-dismissible fade show">{{form.username.errors}}</div>
             {% endif %}
 
+            <label for="id_first_name" class="form-label">Имя</label>
             <input type="text" class="form-control" placeholder="Имя"
                    id="id_first_name"
                    name="first_name"
-                   value="{{ form.first_name.value }}"> <br>
+                   value="{{ form.first_name.value }}">
             {% if form.first_name.errors %}
                 <div class="alert alert-danger alert-dismissible fade show">{{form.first_name.errors}}</div>
             {% endif %}
 
+            <label for="id_last_name" class="form-label">Фамилия</label>
             <input type="text" class="form-control" placeholder="Фамилия"
                    id="id_last_name"
                    name="last_name"
-                   value="{{ form.last_name.value }}"> <br>
+                   value="{{ form.last_name.value }}">
             {% if form.last_name.errors %}
                 <div class="alert alert-danger alert-dismissible fade show">{{form.last_name.errors}}</div>
             {% endif %}
 
+            <label for="id_email" class="form-label">Email</label>
             <input type="email" class="form-control" placeholder="Email"
                    id="id_email"
                    name="email"
                    value="{{ form.email.value }}"
-            > <br>
+            >
             {% if form.email.errors %}
                 <div class="alert alert-danger alert-dismissible fade show">{{form.email.errors}}</div>
             {% endif %}

@@ -300,6 +300,14 @@ form {
     font-size: 18px; /* Размер шрифта кнопки */
 }
 
+.profile-edit .form-label {
+    display: flex;
+    justify-content: start;
+    font-weight: 400;
+    left: 10px;
+    padding-left: 4px;
+}
+
 
 /* Стили для контейнера формы */
 .registration-container {
