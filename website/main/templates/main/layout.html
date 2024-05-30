@@ -37,6 +37,9 @@
                     <a href="{% url 'user:registration' %}"><li><i class="bi bi-person-add"></i> Регистрация</li></a>
                     <a href="{% url 'user:login' %}"><li><i class="bi bi-person"></i> Войти</li></a>
                 {% else %}
+                    {% if user.is_admin or user.is_staff %}
+                        <a href="{% url 'admin:index' %}"><li><i class="bi bi-person-circle"></i> Админка</li></a>
+                    {% endif %}
                     <a href="{% url 'user:logout' %}"><li><i class="bi bi-person-circle"></i> Выйти</li></a>
                     <a href="{% url 'user:profile' %}"><li><i class="bi bi-person-circle"></i> Профиль</li></a>
                 {% endif %}

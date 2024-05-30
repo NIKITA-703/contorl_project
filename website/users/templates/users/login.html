@@ -11,7 +11,9 @@
 <!--            <span>{{ error }}</span><br>  -->
 
 
-            <input type="text" placeholder="Логин" name="username" id="id_username" class="form-control" required> <br>
+            <input type="text" placeholder="Логин" name="username" id="id_username" class="form-control" autofocus
+                   value="{{ forms.username.value }}"
+                   required> <br>
             <input type="password" placeholder="Пароль" name="password" id="id_password" class="form-control" required> <br>
 
             {% comment %}
