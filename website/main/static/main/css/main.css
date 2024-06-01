@@ -133,33 +133,45 @@ aside a li:hover {
 
 main {
     display: flex;
-    justify-content: center; /* Выравнивание по горизонтали */
-    align-items: center; /* Выравнивание по вертикали */
+    justify-content: flex-start; /* Выравнивание по горизонтали */
+    align-items: flex-start; /* Выравнивание по вертикали */
     flex-grow: 1;
     margin-left: 300px; /* Смещение основного контента с учетом фиксированной ширины aside */
     margin-top: 60px; /* Отступ вниз на высоту хедера */
     box-sizing: border-box;
     transition: margin-left 0.3s; /* Плавный переход */
     opacity: 0; /* Изначально скрываем основной контент */
+    padding: 50px;
+
+    background: rgba(10, 10, 10, 0.1); 
+    backdrop-filter: blur(6px); 
+    height: calc(100vh - 60px); 
+    width: 100%;
+
 }
+
 
 body.loaded main {
     opacity: 1; /* Показываем основной контент после загрузки страницы */
     transition: opacity 0.3s; /* Плавный переход */
 }
-
-main .background {
-    background: transparent; /* Убираем фоновое изображение */
-    height: calc(100vh - 60px); /* Высота за вычетом хедера */
+ 
+/*main .background {
+    background: ; 
+    height: calc(100vh - 60px); 
     width: 100%;
-}
+    position: relative;
+    inset: 0;
 
-main .blur {
+}*/
+
+/*main .blur {
     background: rgba(10, 10, 10, 0.1); 
     backdrop-filter: blur(6px); 
-    height: calc(100vh - 60px); /* Высота за вычетом хедера */
+    height: calc(100vh - 60px); 
     width: 100%;
 }
+*/
 
 main .features {
     background: #fff; /* Белый фон */
@@ -172,6 +184,7 @@ main .features {
     color: #000; /* Цвет текста */
     margin: auto; /* Выравнивание по центру */
     position: absolute;
+    margin: auto;
 }
 
 .features h1 {
@@ -231,9 +244,10 @@ form {
     padding: 40px 20px; /* Внутренние отступы */
     max-width: 400px; /* Максимальная ширина контейнера */
     width: 100%; /* Делаем контейнер шириной 100% */
-    position: absolute; /* Позиционирование для отображения поверх всего */
+    position: relative; /* Позиционирование для отображения поверх всего */
     text-align: center; /* Выравнивание текста по центру */
     z-index: 1;
+    margin: auto;
 }
 
 .login-container h1 {
@@ -264,7 +278,7 @@ form {
     padding: 40px 20px; /* Внутренние отступы */
     max-width: 800px; /* Максимальная ширина контейнера */
     width: 100%; /* Делаем контейнер шириной 100% */
-    position: absolute; /* Позиционирование для отображения поверх всего */
+    position: relative; /* Позиционирование для отображения поверх всего */
     text-align: center; /* Выравнивание текста по центру */
     z-index: 1;
 }
@@ -317,9 +331,10 @@ form {
     padding: 40px 20px; /* Внутренние отступы */
     max-width: 600px; /* Максимальная ширина контейнера */
     width: 100%; /* Делаем контейнер шириной 100% */
-    position: absolute; /* Позиционирование для отображения поверх всего */
+    position: relative; /* Позиционирование для отображения поверх всего */
     text-align: center; /* Выравнивание текста по центру */
     z-index: 1;
+    margin: auto;
 }
 
 .registration-container h1 {
