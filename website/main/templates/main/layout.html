@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
@@ -11,24 +11,57 @@
 </head>
 <body>
 
+
     <aside>
-        <img src="{% static 'main/img/DJ.png' %}" alt="Logo">
-        <span class="logo">Management</span>
         <h3>Навигация</h3>
         <ul>
-            <a href="{% url 'home' %}" style="text-decoration: none;"><li><i class="bi bi-house-door"></i> Главная</li></a>
-            <a href="{% url 'about' %}" style="text-decoration: none;"><li><i class="bi bi-person-fill"></i> Про нас</li></a>
-            <a href="{% url 'news_home' %}" style="text-decoration: none;"><li><i class="bi bi-newspaper"></i> Новости</li></a>
-            <a href="" style="text-decoration: none;"><li><i class="bi bi-telegram"></i> Контакты</li></a>
-            <a href="{% url 'create' %}" style="text-decoration: none;"><li><button class="btn btn-info"><i class="bi bi-plus-circle-fill"></i> Создать запись </button></li></a>
-
+            <a href="{% url 'main:home' %}"><li><i class="bi bi-house-door"></i> Главная</li></a>
+            <a href="{% url 'main:about' %}"><li><i class="bi bi-person-fill"></i> Про нас</li></a>
+            <a href="{% url 'news:news_home' %}"><li><i class="bi bi-newspaper"></i> Новости</li></a>
+            <a href="#"><li><i class="bi bi-telegram"></i> Контакты</li></a>
+            <a href="{% url 'news:create' %}"><li><button class="btn btn-info"><i class="bi bi-plus-circle-fill"></i> Создать запись </button></li></a>
         </ul>
     </aside>
-    
+    <div id="resizer" style="display: none;"></div> <!-- Скрываем элемент resizer -->
+    <header class="header">
+        <div class="header-content">
+<!--            <a href="#" class="logo">Логотип</a>-->
+
+            <div class="other">
+                <nav>
+                    <a href="#">Ссылка 1</a>
+                    <a href="#">Ссылка 2</a>
+                    <a href="#">Ссылка 3</a>
+                </nav>
+            </div>
+            <div class="auth-links">
+                {% if not user.is_authenticated %}
+                    <a href="{% url 'user:registration' %}"><li><i class="bi bi-person-add"></i> Регистрация</li></a>
+                    <a href="{% url 'user:login' %}"><li><i class="bi bi-person"></i> Войти</li></a>
+                {% else %}
+                    {% if user.is_admin or user.is_staff %}
+                        <a href="{% url 'admin:index' %}"><li><i class="bi bi-pc-display"></i> Админка</li></a>
+                    {% endif %}
+                    <a href="{% url 'user:logout' %}"><li><i class="bi bi-box-arrow-left"></i> Выйти</li></a>
+                    <a href="{% url 'user:profile' %}"><li><i class="bi bi-person-circle"></i> Профиль</li></a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
     <main>
         {% block content %}
         {% endblock %}
     </main>
 
+
+
+    <script>
+        // Добавляем класс 'loaded' к body после полной загрузки страницы
+        window.addEventListener('load', function() {
+            document.body.classList.add('loaded');
+        });
+    </script>
+    <script src="{% static 'main/js/resize.js' %}"></script>
 </body>
 </html>

@@ -1,37 +1,112 @@
+/* Основные стили */
 body {
     background: #2c2c2c;
+    display: flex;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;  /* Предотвращаем скроллинг */
+    position: relative;
+}
+
+body:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("/static/main/img/mount2.jpg");
+    background-size: cover;
+    background-position: center;
+    z-index: -1;  /* Помещаем фон под контент */
+}
+
+.header {
+    background: rgba(52, 52, 52, 0.72);  
+    backdrop-filter: blur(40px); /* Эффект размытия */
+    color: #fff;
+    width: calc(100% - 300px); /* Ширина за вычетом фиксированной ширины aside */
+    padding: 20px 20px;
+    position: fixed;
+    top: 0;
+    left: 300px; /* Смещение хедера вправо на фиксированную ширину aside */
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    transition: width 0.3s, left 0.3s; /* Плавный переход */
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    list-style: none;
+}
+
+.other {
+    display: flex;
+    gap: 20px;
+}
+
+.auth-links {
+    display: flex;
+    gap: 20px;
+}
+
+.header nav a, .auth-links a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.header nav a:hover, .auth-links a:hover {
+    color: #eb5959;
 }
 
 aside {
-    float: left;
-    background: #181818;
-    width: 500px;
+    background: rgba(52, 52, 52, 0.72);  
+    backdrop-filter: blur(40px); 
+    width: 300px;  
     padding: 2.5%;
     height: 100vh;
     color: #fff;
-    border-right: 5px solid #4d4d4d;
+    border-right: 1px solid #FFFFFF99;
     position: fixed;
+    box-sizing: border-box;
+    overflow: auto;
+    transition: width 0.3s;  
+} 
 
+#resizer {
+    display: none; /* Скрываем элемент resizer */
 }
 
 aside img {
-    width: 250px;
-    float: left;
+    width: 100%; /* Изменяем размер логотипа */
+    max-width: 250px;
 }
 
 aside .logo {
     font-size: 40px;
     margin-left: 10px;
     font-weight: bold;
+    word-wrap: break-word; /* Переносим длинные слова */
+    word-break: break-all; /* Переносим слова по любой точке */
+    overflow: hidden; /* Предотвращаем выход текста за границы */
 }
-
 
 aside h3 {
     margin-top: 25px;
     font-size: 36px;
 }
 
-aside ul {list-style: none}
+aside ul {
+    list-style: none;
+    padding: 0; /* Убираем отступы */
+    margin: 0; /* Убираем отступы */
+}
+
 aside ul li {
     color: #fff;
     display: block;
@@ -46,37 +121,309 @@ aside ul li:hover, aside ul a:hover {
     transform: scale(1.05);
 }
 
+aside a {
+    text-decoration: none;
+}
+
+aside a li:hover {
+    color: #eb5959;
+    text-decoration: none;
+    transform: scale(1.05);
+}
+
 main {
     display: flex;
-    align-items: center;
-    margin-left: 500px;
- }
+    justify-content: flex-start; /* Выравнивание по горизонтали */
+    align-items: flex-start; /* Выравнивание по вертикали */
+    flex-grow: 1;
+    margin-left: 300px; /* Смещение основного контента с учетом фиксированной ширины aside */
+    margin-top: 60px; /* Отступ вниз на высоту хедера */
+    box-sizing: border-box;
+    transition: margin-left 0.3s; /* Плавный переход */
+    opacity: 0; /* Изначально скрываем основной контент */
+    padding: 50px;
 
-main .features {
-    color: #fff;
-    float: left;
-    margin-top: 100px;
-    text-align: center;
+    background: rgba(10, 10, 10, 0.1); 
+    backdrop-filter: blur(6px); 
+    height: calc(100vh - 60px); 
     width: 100%;
 
-
- }
-
- main .features h1 {font-size: 50px; f}
- main .features p {max-width: 400px; margin: 20px auto}
-
-
-.alert-warning {
-    float: left;
-    clear: both;
-    width: 400px;
-    margin: 20px 40.3%;
-    text-align: center;
 }
 
 
+body.loaded main {
+    opacity: 1; /* Показываем основной контент после загрузки страницы */
+    transition: opacity 0.3s; /* Плавный переход */
+}
+ 
+/*main .background {
+    background: ; 
+    height: calc(100vh - 60px); 
+    width: 100%;
+    position: relative;
+    inset: 0;
+
+}*/
+
+/*main .blur {
+    background: rgba(10, 10, 10, 0.1); 
+    backdrop-filter: blur(6px); 
+    height: calc(100vh - 60px); 
+    width: 100%;
+}
+*/
+
+main .features {
+    background: #fff; /* Белый фон */
+    border-radius: 8px; /* Радиус скругления углов */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Тень */
+    padding: 40px 20px 10px; /* Внутренние отступы */
+    max-width: 800px; /* Максимальная ширина контейнера */
+    width: 100%; /* Делаем контейнер шириной 100% */
+    text-align: center; /* Выравнивание текста по центру */
+    color: #000; /* Цвет текста */
+    margin: auto; /* Выравнивание по центру */
+    position: absolute;
+    margin: auto;
+}
+
+.features h1 {
+    margin-bottom: 30px; /* Отступ снизу */
+    font-size: 28px; /* Размер шрифта заголовка */
+}
+
+.features .form-group {
+    margin-bottom: 20px; /* Отступ снизу */
+}
+
+.features .form-control {
+    height: 45px; /* Высота полей ввода */
+    font-size: 16px; /* Размер шрифта полей ввода */
+    padding-left: 10px; /* Внутренний отступ слева */
+    width: 100%; /* Ширина полей ввода */
+    box-sizing: border-box; /* Учет внутренних отступов и рамки в ширине */
+}
+
+.features .btn {
+    width: 60%; /* Ширина кнопки 100% */
+    padding: 10px; /* Внутренние отступы кнопки */
+    font-size: 18px; /* Размер шрифта кнопки */
+}
+
+.features .btn-del-info .btn {
+    width: 23%; /* Ширина кнопки 100% */
+    padding: 10px; /* Внутренние отступы кнопки */
+    font-size: 18px; /* Размер шрифта кнопки */
+}
+
+.alert-primary {
+    width: 400px;
+    margin: 20px auto;
+    text-align: center;
+}
+
+.form-group {
+    width: 100%;
+}
+
+.features form {
+    display: flex;
+    justify-content: space-between;
+} 
+
+
 form {
-    margin-left: 32%;
-    width: 500px;
-    margin-top: 50px;
+    width: 100%; /* Делаем форму шириной 100% */
+}
+
+/* Стили для контейнера формы */
+.login-container {
+    background: #fff; /* Белый фон */
+    border-radius: 8px; /* Радиус скругления углов */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Тень */
+    padding: 40px 20px; /* Внутренние отступы */
+    max-width: 400px; /* Максимальная ширина контейнера */
+    width: 100%; /* Делаем контейнер шириной 100% */
+    position: relative; /* Позиционирование для отображения поверх всего */
+    text-align: center; /* Выравнивание текста по центру */
+    z-index: 1;
+    margin: auto;
+}
+
+.login-container h1 {
+    margin-bottom: 30px; /* Отступ снизу */
+    font-size: 28px; /* Размер шрифта заголовка */
+}
+
+.login-container .form-control {
+    margin-bottom: 20px; /* Отступ снизу */
+    height: 45px; /* Высота полей ввода */
+    font-size: 16px; /* Размер шрифта полей ввода */
+    padding-left: 10px; /* Внутренний отступ слева */
+    width: 100%; /* Ширина полей ввода */
+    box-sizing: border-box; /* Учет внутренних отступов и рамки в ширине */
+}
+
+.login-container .btn {
+    width: 100%; /* Ширина кнопки 100% */
+    padding: 10px; /* Внутренние отступы кнопки */
+    font-size: 18px; /* Размер шрифта кнопки */
+}
+
+/* Стили для контейнера профиля */
+.profile-container {
+    background: #fff; /* Белый фон */
+    border-radius: 8px; /* Радиус скругления углов */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Тень */
+    padding: 40px 20px; /* Внутренние отступы */
+    max-width: 800px; /* Максимальная ширина контейнера */
+    width: 100%; /* Делаем контейнер шириной 100% */
+    position: relative; /* Позиционирование для отображения поверх всего */
+    text-align: center; /* Выравнивание текста по центру */
+    z-index: 1;
+}
+
+.profile-header {
+    margin-bottom: 30px;
+}
+
+.profile-info {
+    margin-bottom: 30px;
+}
+
+.profile-photo {
+    width: 150px; /* Ширина фотографии */
+    height: 150px; /* Высота фотографии */
+    border-radius: 50%; /* Скругление углов */
+    object-fit: cover; /* Обрезка изображения по размеру */
+    margin-bottom: 20px; /* Отступ снизу */
+}
+
+.profile-edit .form-control {
+    margin-bottom: 20px; /* Отступ снизу */
+    height: 45px; /* Высота полей ввода */
+    font-size: 16px; /* Размер шрифта полей ввода */
+    padding-left: 10px; /* Внутренний отступ слева */
+    width: 100%; /* Ширина полей ввода */
+    box-sizing: border-box; /* Учет внутренних отступов и рамки в ширине */
+}
+
+.profile-edit .btn {
+    width: 100%; /* Ширина кнопки 100% */
+    padding: 10px; /* Внутренние отступы кнопки */
+    font-size: 18px; /* Размер шрифта кнопки */
+}
+
+.profile-edit .form-label {
+    display: flex;
+    justify-content: start;
+    font-weight: 400;
+    left: 10px;
+    padding-left: 4px;
+}
+
+
+/* Стили для контейнера формы */
+.registration-container {
+    background: #fff; /* Белый фон */
+    border-radius: 8px; /* Радиус скругления углов */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Тень */
+    padding: 40px 20px; /* Внутренние отступы */
+    max-width: 600px; /* Максимальная ширина контейнера */
+    width: 100%; /* Делаем контейнер шириной 100% */
+    position: relative; /* Позиционирование для отображения поверх всего */
+    text-align: center; /* Выравнивание текста по центру */
+    z-index: 1;
+    margin: auto;
+}
+
+.registration-container h1 {
+    margin-bottom: 30px; /* Отступ снизу */
+    font-size: 28px; /* Размер шрифта заголовка */
+}
+
+.registration-container .form-control {
+    margin-bottom: 20px; /* Отступ снизу */
+    height: 45px; /* Высота полей ввода */
+    font-size: 16px; /* Размер шрифта полей ввода */
+    padding-left: 10px; /* Внутренний отступ слева */
+    width: 100%; /* Ширина полей ввода */
+    box-sizing: border-box; /* Учет внутренних отступов и рамки в ширине */
+}
+
+.registration-container .btn {
+    width: 100%; /* Ширина кнопки 100% */
+    padding: 10px; /* Внутренние отступы кнопки */
+    font-size: 18px; /* Размер шрифта кнопки */
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.registration-container .form-group {
+    width: 48%;
+}
+
+
+/*test*/
+
+.profile-container-test {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 40px 20px;
+    max-width: 800px;
+    width: 100%;
+    margin: auto;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.profile-header-test {
+    margin-bottom: 30px;
+}
+
+.profile-info-test {
+    margin-bottom: 30px;
+}
+
+.profile-photo-test {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+
+.profile-edit-test .form-control {
+    height: 45px;
+    font-size: 16px;
+    padding-left: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+
+.profile-edit-test .btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+.profile-edit-test .form-label {
+    display: flex;
+    justify-content: start;
+    font-weight: 400;
+    padding-left: 4px;
+    margin-bottom: 10px;
 }

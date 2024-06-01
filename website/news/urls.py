@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 
+app_name = 'news'
 
 urlpatterns = [
     path('', views.news_home, name="news_home"),
@@ -9,3 +10,4 @@ urlpatterns = [
     path('<int:pk>/update', views.NewsUpdateView.as_view(), name="news-update"),
     path('<int:pk>/delete', views.NewsDeleteView.as_view(), name="news-delete"),
 ]
+# 425

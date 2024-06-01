@@ -1,5 +1,7 @@
 # Create your views here.
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+from django.views.generic import DetailView
 
 
 def index(request):
@@ -15,5 +17,6 @@ def about(request):
 
 
 def test(request):
-    return render(request, 'main/test.html')
+    return render(request, 'users/test.html')
 
+# сделать аутификацию пользователей
