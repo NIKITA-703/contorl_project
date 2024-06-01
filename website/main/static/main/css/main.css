@@ -350,3 +350,65 @@ form {
 .registration-container .form-group {
     width: 48%;
 }
+
+
+/*test*/
+
+.profile-container-test {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 40px 20px;
+    max-width: 800px;
+    width: 100%;
+    margin: auto;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.profile-header-test {
+    margin-bottom: 30px;
+}
+
+.profile-info-test {
+    margin-bottom: 30px;
+}
+
+.profile-photo-test {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+
+.profile-edit-test .form-control {
+    height: 45px;
+    font-size: 16px;
+    padding-left: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+
+.profile-edit-test .btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+.profile-edit-test .form-label {
+    display: flex;
+    justify-content: start;
+    font-weight: 400;
+    padding-left: 4px;
+    margin-bottom: 10px;
+}

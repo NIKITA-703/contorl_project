@@ -16,8 +16,7 @@ def about(request):
     return render(request, 'main/about.html')
 
 
-
 def test(request):
-    return render(request, 'main/test.html')
+    return render(request, 'users/test.html')
 
 # сделать аутификацию пользователей
