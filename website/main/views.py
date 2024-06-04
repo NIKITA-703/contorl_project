@@ -19,4 +19,3 @@ def about(request):
 def test(request):
     return render(request, 'users/test.html')
 
-# сделать аутификацию пользователей

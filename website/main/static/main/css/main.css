@@ -147,6 +147,7 @@ main {
     backdrop-filter: blur(6px); 
     height: calc(100vh - 60px); 
     width: 100%;
+    overflow: auto;
 
 }
 
@@ -281,6 +282,7 @@ form {
     position: relative; /* Позиционирование для отображения поверх всего */
     text-align: center; /* Выравнивание текста по центру */
     z-index: 1;
+    overflow: auto; /* Разрешаем скроллинг для контейнера профиля */
 }
 
 .profile-header {
@@ -320,6 +322,20 @@ form {
     font-weight: 400;
     left: 10px;
     padding-left: 4px;
+}
+
+/* Медиазапросы для адаптивного отображения   ДОДЕЛАТЬ  */
+@media (max-width: 1920px) {
+    .profile-container {
+        max-width: 600px; /* Уменьшаем максимальную ширину контейнера */
+    }
+}
+
+@media (max-width: 1280px) {
+    .profile-container {
+        max-width: 500px; /* Еще больше уменьшаем максимальную ширину контейнера */
+        padding: 20px; /* Уменьшаем внутренние отступы */
+    }
 }
 
 

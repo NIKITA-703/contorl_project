@@ -10,21 +10,22 @@
         <h1>Профиль</h1>
     </div>
     <div class="profile-info">
-
-    </div>
-    <div class="profile-edit">
-        <form action="{% url 'users:profile' %}" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-
-            {% if user.image %}
+        {% if user.image %}
                 <img src="{{ user.image.url }}" alt="User Photo" class="profile-photo">
             {% else %}
                 <img src="{% static 'users/img/profile.png' %}" alt="User Photo" style="max-width: 150px;" class="profile-photo">
              {% endif %}
+        <h2>{{ form.username.value }}</h2>
+        <p>{{ form.last_name.value }}</p>
+        <p>{{ form.email.value }}</p>
+    </div>
 
-            <h2>{{ form.username.value }}</h2>
-            <p>{{ form.last_name.value }}</p>
-            <p>{{ form.email.value }}</p>
+    <div class="profile-edit">
+        <form action="{% url 'users:profile' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+
+
 
             <input type="file" class="form-control" placeholder="Загрузить фото" id="id_image" name="image" accept="image/*">
             {% if form.image.errors %}

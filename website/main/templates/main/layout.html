@@ -17,9 +17,12 @@
         <ul>
             <a href="{% url 'main:home' %}"><li><i class="bi bi-house-door"></i> Главная</li></a>
             <a href="{% url 'main:about' %}"><li><i class="bi bi-person-fill"></i> Про нас</li></a>
-            <a href="{% url 'news:news_home' %}"><li><i class="bi bi-newspaper"></i> Новости</li></a>
-            <a href="#"><li><i class="bi bi-telegram"></i> Контакты</li></a>
-            <a href="{% url 'news:create' %}"><li><button class="btn btn-info"><i class="bi bi-plus-circle-fill"></i> Создать запись </button></li></a>
+            {% if user.is_admin or user.is_staff %}
+                <a href="{% url 'news:news_home' %}"><li><i class="bi bi-newspaper"></i> Новости</li></a>
+                <a href="#"><li><i class="bi bi-telegram"></i> Контакты</li></a>
+                <a href="{% url 'news:create' %}"><li><button class="btn btn-info"><i class="bi bi-plus-circle-fill"></i> Создать запись </button></li></a>
+            {% endif %}
+            <a href="{% url 'main:about' %}"><li><i class="bi bi-person-fill"></i> Про нас</li></a>
         </ul>
     </aside>
     <div id="resizer" style="display: none;"></div> <!-- Скрываем элемент resizer -->
