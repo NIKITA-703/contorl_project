@@ -25,12 +25,13 @@
         </div>
         <span class="add-task" onclick="addTask(this)">+ Добавить задачу</span>
         <div class="task-list">
-            <div class="task" contentEditable="true">
-                <p>Описание задачи</p>
+            <div class="task" contentEditable="true" onfocus="storePreviousValue(this)" onblur="checkIfEmpty(this, 'Описание задачи')">
+                Описание задачи
             </div>
         </div>
     </div>
 </template>
+
 
 
 

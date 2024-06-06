@@ -48,12 +48,6 @@ function renameColumn(element) {
         header.contentEditable = 'false';
     };
 
-    element.onblur = function() {
-        if (element.textContent.trim() === '') {
-            element.textContent = prevName; // Если новое название пустое, возвращаем предыдущее
-        }
-        element.contentEditable = 'false'; // Убираем редактирование
-    };
 }
 
 // Функция для переименования по двойному клику
@@ -78,7 +72,6 @@ document.addEventListener('click', function(event) {
         }
     });
 });
-
 
 
 
