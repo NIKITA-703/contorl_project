@@ -1,0 +1,58 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+<div class="management-container">
+    <div class="controls">
+        <button class="btn btn-success" type="button" onclick="createNewColumn()">Создать новую задачу</button>
+    </div>
+    <div class="columns-container"></div>
+</div>
+
+<!-- Шаблон для новой колонки -->
+<template id="column-template">
+    <div class="column">
+        <div class="task-header">
+            <h2>Новая колонка</h2>
+        </div>
+        <span class="add-task" onclick="addTask(this)">+ Добавить задачу</span>
+        <div class="task-list">
+            <div class="task">
+                <p>Описание задачи</p>
+            </div>
+        </div>
+    </div>
+</template>
+
+
+
+
+
+<!--    <div class="columns-container">-->
+<!--        <div class="column">-->
+<!--        <h3>New Column</h3>-->
+<!--        <button class="btn btn-success" type="submit" onclick="addNewTask(this)">Add task</button>-->
+<!--        <div class="tasks-container"></div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    <div class="management-container">-->
+<!--        <div class="controls">-->
+<!--            <button class="btn btn-success" type="button" onclick="createNewColumn()">Create a new column</button>-->
+<!--        </div>-->
+<!--        <div class="columns-container"></div>-->
+<!--    </div>-->
+
+
+
+
+<!--<div class="container&#45;&#45;inline-flex">-->
+<!--    <div class="flex-child"></div>-->
+<!--    <div class="flex-child"></div>-->
+<!--    <div class="flex-child"></div>-->
+<!--</div>-->
+
+{% endblock %}
+

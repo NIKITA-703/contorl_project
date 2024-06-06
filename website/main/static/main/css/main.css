@@ -53,6 +53,7 @@ body:before {
 .auth-links {
     display: flex;
     gap: 20px;
+    transition: width 0.3s;  
 }
 
 .header nav a, .auth-links a {
@@ -62,6 +63,8 @@ body:before {
 
 .header nav a:hover, .auth-links a:hover {
     color: #eb5959;
+    text-decoration: none;
+    transform: scale(1.05);
 }
 
 aside {
@@ -443,3 +446,86 @@ form {
     padding-left: 4px;
     margin-bottom: 10px;
 }
+
+/* management  */
+
+.management-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+}
+
+.controls {
+    margin-bottom: 20px;
+}
+
+.columns-container {
+    display: flex;
+    gap: 1.5rem;
+    width: 100%;
+    overflow-x: auto;
+}
+
+.column {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 300px;
+    min-width: 300px;
+    flex-shrink: 0;
+}
+
+.management-container .controls .btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 18px;
+}
+
+.task {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.column .task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.column .task-header h2 {
+    margin: 0;
+}
+
+.column .add-task {
+    cursor: pointer;
+    color: #007bff;
+    text-decoration: none;
+    display: block;
+    margin-top: 5px;
+}
+
+.column .add-task:hover {
+    text-decoration: underline;
+}
+
+.column .task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.column .task {
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+

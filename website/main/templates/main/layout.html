@@ -22,7 +22,7 @@
                 <a href="#"><li><i class="bi bi-telegram"></i> Контакты</li></a>
                 <a href="{% url 'news:create' %}"><li><button class="btn btn-info"><i class="bi bi-plus-circle-fill"></i> Создать запись </button></li></a>
             {% endif %}
-            <a href="{% url 'main:about' %}"><li><i class="bi bi-person-fill"></i> Про нас</li></a>
+            <a href="{% url 'management:main_management' %}"><li><i class="bi bi-briefcase"></i> Проект</li></a>
         </ul>
     </aside>
     <div id="resizer" style="display: none;"></div> <!-- Скрываем элемент resizer -->
@@ -58,7 +58,6 @@
     </main>
 
 
-
     <script>
         // Добавляем класс 'loaded' к body после полной загрузки страницы
         window.addEventListener('load', function() {
@@ -66,5 +65,6 @@
         });
     </script>
     <script src="{% static 'main/js/resize.js' %}"></script>
+    <script src="{% static 'main/js/task.js' %}"></script>
 </body>
 </html>

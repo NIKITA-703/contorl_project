@@ -16,7 +16,16 @@
             <input type="text" placeholder="Логин" name="username" id="id_username" class="form-control" autofocus
                    value="{{ forms.username.value }}"
                    required> <br>
+
+            {% if form.username.errors %}
+                <div class="alert alert-danger alert-dismissible fade show">{{form.username.errors}}</div>
+            {% endif %}
+
             <input type="password" placeholder="Пароль" name="password" id="id_password" class="form-control" required> <br>
+
+            {% if form.password.errors %}
+                <div class="alert alert-danger alert-dismissible fade show">{{form.password.errors}}</div>
+            {% endif %}
 
             {% comment %}
             {% for item in form %}
