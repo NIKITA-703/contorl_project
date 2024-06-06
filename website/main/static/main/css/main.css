@@ -501,6 +501,52 @@ form {
 
 .column .task-header h2 {
     margin: 0;
+}
+
+.column .add-task {
+    cursor: pointer;
+    color: #007bff;
+    text-decoration: none;
+    display: block;
+    margin-top: 5px;
+}
+
+.column .add-task:hover {
+    text-decoration: none;
+}
+
+.column .task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.column .task {
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Dropdown menu styles */
+.task {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.column .task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.column .task-header h2 {
+    margin: 0;
     outline: none; /* Убираем синюю обводку */
     word-wrap: break-word; /* Переносим длинные слова */
     word-break: break-word; /* Переносим слова по любой точке */
@@ -565,7 +611,6 @@ form {
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-
 
 
 

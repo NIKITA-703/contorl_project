@@ -15,7 +15,7 @@
 <template id="column-template">
     <div class="column">
         <div class="task-header">
-            <h2 ondblclick="renameColumnInline(this)">Новая колонка</h2>
+            <h2 ondblclick="renameColumnInline(this)">Новая задача</h2>
             <div class="dropdown">
                 <i class="bi bi-three-dots-vertical" onclick="toggleMenu(this)"></i>
                 <div class="dropdown-menu">
@@ -23,6 +23,7 @@
                 </div>
             </div>
         </div>
+        <span class="add-task" onclick="addTask(this)">+ Добавить задачу</span>
         <div class="task-list">
             <div class="task">
                 <p>Описание задачи</p>

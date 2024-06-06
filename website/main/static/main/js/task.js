@@ -1,57 +1,36 @@
 // task.js
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Добавляем обработчики двойного клика на существующие заголовки колонок
-    document.querySelectorAll('.task-header h2').forEach(header => {
-        header.addEventListener('dblclick', function() {
-            renameColumnInline(header);
-        });
-    });
-});
+// task.js
 
+// Функция для создания новой колонки
 function createNewColumn() {
-    // Получаем шаблон для колонки
-    const template = document.querySelector('#column-template');
-    // Получаем контейнер, в который будут добавляться колонки
-    const columnsContainer = document.querySelector('.columns-container');
-    // Клонируем содержимое шаблона
-    const clone = document.importNode(template.content, true);
-    // Добавляем клонированный шаблон в контейнер
-    columnsContainer.appendChild(clone);
-
-    // Добавляем обработчик двойного клика на новый заголовок колонки
-    const newHeader = columnsContainer.lastElementChild.querySelector('.task-header h2');
-    newHeader.addEventListener('dblclick', function() {
-        renameColumnInline(newHeader);
-    });
+    const template = document.querySelector('#column-template'); // Получаем шаблон колонки
+    const columnsContainer = document.querySelector('.columns-container'); // Получаем контейнер для колонок
+    const clone = document.importNode(template.content, true); // Клонируем содержимое шаблона
+    columnsContainer.appendChild(clone); // Добавляем клонированный шаблон в контейнер колонок
 }
 
+// Функция для добавления новой задачи
 function addTask(button) {
-    // Создаем новый элемент для задачи
-    const taskContainer = document.createElement('div');
-    // Задаем класс для стилизации задачи
-    taskContainer.className = 'task';
-    // Устанавливаем возможность редактирования содержимого задачи
-    taskContainer.contentEditable = 'true';
-    // Устанавливаем текст по умолчанию для новой задачи
-    taskContainer.innerText = 'Новая задача';
-    // Получаем контейнер задач, в который добавим новую задачу
-    const tasksContainer = button.nextElementSibling;
-    // Добавляем новую задачу в контейнер задач
-    tasksContainer.appendChild(taskContainer);
+    const taskContainer = document.createElement('div'); // Создаем новый элемент div для задачи
+    taskContainer.className = 'task'; // Присваиваем класс 'task' новому элементу
+    taskContainer.contentEditable = 'true'; // Делаем новый элемент редактируемым
+    taskContainer.innerText = 'Новая задача'; // Устанавливаем текст для новой задачи
+    const tasksContainer = button.nextElementSibling; // Получаем контейнер задач
+    tasksContainer.appendChild(taskContainer); // Добавляем новый элемент задачи в контейнер задач
 }
 
+// Функция для переключения меню
 function toggleMenu(element) {
-    // Получаем следующее соседнее меню элемента
-    const menu = element.nextElementSibling;
-    // Проверяем текущее состояние отображения меню и переключаем его
+    const menu = element.nextElementSibling; // Получаем следующий элемент (меню)
     if (menu.style.display === 'block') {
-        menu.style.display = 'none';
+        menu.style.display = 'none'; // Если меню отображается, скрываем его
     } else {
-        menu.style.display = 'block';
+        menu.style.display = 'block'; // Если меню скрыто, отображаем его
     }
 }
 
+// Функция для переименования колонки
 function renameColumn(element) {
     // Скрываем меню
     element.parentElement.style.display = 'none';
@@ -74,22 +53,36 @@ function renameColumn(element) {
     };
 }
 
-// Функция для переименования колонки по двойному клику
+// Функция для переименования по двойному клику
 function renameColumnInline(element) {
-    // Сохраняем текущее значение заголовка
-    const previousValue = element.textContent;
-    // Устанавливаем возможность редактирования заголовка
-    element.contentEditable = 'true';
-    // Перемещаем фокус на заголовок для редактирования
-    element.focus();
-    // Снимаем возможность редактирования при потере фокуса
+    const prevName = element.textContent; // Сохраняем текущее название колонки
+    element.contentEditable = 'true'; // Делаем заголовок редактируемым
+    element.focus(); // Устанавливаем фокус на заголовке
     element.onblur = function() {
         if (element.textContent.trim() === '') {
-            element.textContent = previousValue;
+            element.textContent = prevName; // Если новое название пустое, возвращаем предыдущее
         }
-        element.contentEditable = 'false';
+        element.contentEditable = 'false'; // Убираем редактирование
     };
 }
+
+// Добавляем событие двойного клика для переименования колонки
+document.addEventListener('dblclick', function(event) {
+    if (event.target.matches('.task-header h2')) {
+        renameColumnInline(event.target); // Переименовываем колонку по двойному клику
+    }
+});
+
+// Добавляем событие клика для скрытия контекстного меню при клике вне его
+document.addEventListener('click', function(event) {
+    const menus = document.querySelectorAll('.dropdown-menu'); // Получаем все элементы меню
+    menus.forEach(menu => {
+        // Если клик не внутри меню и не на кнопку с тремя точками
+        if (!menu.contains(event.target) && !menu.previousElementSibling.contains(event.target)) {
+            menu.style.display = 'none'; // Скрываем меню
+        }
+    });
+});
 
 
 
