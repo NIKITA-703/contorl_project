@@ -1,8 +1,20 @@
+let previousValue = '';
+
 function createNewColumn() {
     const template = document.querySelector('#column-template'); // Получаем шаблон колонки
     const columnsContainer = document.querySelector('.columns-container'); // Получаем контейнер для колонок
     const clone = document.importNode(template.content, true); // Клонируем содержимое шаблона
     columnsContainer.appendChild(clone); // Добавляем клонированный шаблон в контейнер колонок
+}
+
+function storePreviousValue(element) {
+    previousValue = element.innerText; // Сохраняем текущее значение элемента
+}
+
+function checkIfEmpty(element, defaultValue) {
+    if (element.innerText.trim() === '') {
+        element.innerText = previousValue || defaultValue; // Если пусто, возвращаем предыдущее значение или значение по умолчанию
+    }
 }
 
 // Функция для добавления новой задачи
@@ -11,6 +23,8 @@ function addTask(button) {
     taskContainer.className = 'task'; // Присваиваем класс 'task' новому элементу
     taskContainer.contentEditable = 'true'; // Делаем новый элемент редактируемым
     taskContainer.innerText = 'Новая задача'; // Устанавливаем текст для новой задачи
+    taskContainer.onfocus = function() { storePreviousValue(taskContainer); };
+    taskContainer.onblur = function() { checkIfEmpty(taskContainer, 'Новая задача'); };
     const tasksContainer = button.nextElementSibling; // Получаем контейнер задач
     tasksContainer.appendChild(taskContainer); // Добавляем новый элемент задачи в контейнер задач
     taskContainer.focus(); // Фокусируемся на новом элементе
@@ -47,7 +61,6 @@ function renameColumn(element) {
         }
         header.contentEditable = 'false';
     };
-
 }
 
 // Функция для переименования по двойному клику
@@ -72,6 +85,7 @@ document.addEventListener('click', function(event) {
         }
     });
 });
+
 
 
 
