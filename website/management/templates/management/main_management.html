@@ -16,8 +16,13 @@
     <div class="column">
         <div class="task-header">
             <h2>Новая колонка</h2>
+            <div class="dropdown">
+                <i class="bi bi-three-dots-vertical" onclick="toggleMenu(this)"></i>
+                <div class="dropdown-menu">
+                    <button class="dropdown-item" onclick="renameColumn(this)">Переименовать</button>
+                </div>
+            </div>
         </div>
-        <span class="add-task" onclick="addTask(this)">+ Добавить задачу</span>
         <div class="task-list">
             <div class="task">
                 <p>Описание задачи</p>

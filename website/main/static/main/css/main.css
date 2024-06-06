@@ -447,7 +447,7 @@ form {
     margin-bottom: 10px;
 }
 
-/* management  */
+/* management */
 
 .management-container {
     display: flex;
@@ -503,15 +503,50 @@ form {
     margin: 0;
 }
 
-.column .add-task {
+.column .task-header .dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.column .task-header .bi-three-dots-vertical {
+    cursor: pointer;
+    font-size: 24px;
+    user-select: none;
+}
+
+.column .task-header .dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    padding: 10px;
+    z-index: 1;
+    right: 0;
+}
+
+.column .task-header .dropdown-menu .dropdown-item {
+    background: none;
+    border: none;
+    padding: 8px 16px;
+    text-align: left;
+    cursor: pointer;
+    width: 100%;
+}
+
+.column .task-header .dropdown-menu .dropdown-item:hover {
+    background-color: #f1f1f1;
+}
+
+.column .task-header .add-task {
     cursor: pointer;
     color: #007bff;
     text-decoration: none;
-    display: block;
-    margin-top: 5px;
+    margin-left: auto;
+    margin-right: 10px;
 }
 
-.column .add-task:hover {
+.column .task-header .add-task:hover {
     text-decoration: underline;
 }
 
@@ -527,5 +562,7 @@ form {
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+
 
 
