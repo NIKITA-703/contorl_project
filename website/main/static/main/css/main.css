@@ -509,6 +509,7 @@ form {
     text-decoration: none;
     display: block;
     margin-top: 5px;
+    padding-bottom: 10px;
 }
 
 .column .add-task:hover {
@@ -523,19 +524,23 @@ form {
 
 .column .task {
     background: #f8f9fa;
-    padding: 10px;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* Dropdown menu styles */
-.task {
-    background: #f8f9fa;
     border: 1px solid #dee2e6;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 10px;
     margin-bottom: 10px;
+    position: relative;
+}
+
+.column .task:focus {
+    box-shadow: 2px 0 0 0 yellow; /* Устанавливаем желтую обводку только справа при фокусе */
+    outline: none; /* Убираем стандартную обводку */
+}
+
+.task-list .task {
+    margin: 0; /* Убираем внешние отступы */
+    word-wrap: break-word; /* Переносим длинные слова */
+    word-break: break-word; /* Переносим слова по любой точке */
 }
 
 .column .task-header {
@@ -562,6 +567,8 @@ form {
     font-size: 24px;
     user-select: none;
 }
+
+/* Dropdown menu styles */
 
 .column .task-header .dropdown-menu {
     display: none;
