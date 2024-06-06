@@ -1,4 +1,5 @@
 // task.js
+
 function createNewColumn() {
     const template = document.querySelector('#column-template');
     const columnsContainer = document.querySelector('.columns-container');
@@ -25,19 +26,28 @@ function toggleMenu(element) {
 }
 
 function renameColumn(element) {
+    element.parentElement.style.display = 'none';
     const column = element.closest('.column');
     const header = column.querySelector('.task-header h2');
-    const newName = prompt("Введите новое название колонки:", header.textContent);
-    if (newName) {
-        header.textContent = newName;
-    }
-    element.parentElement.style.display = 'none';
+    header.contentEditable = 'true';
+    header.focus();
+    // Снять редактирование при потере фокуса
+    header.onblur = function() {
+        header.contentEditable = 'false';
+        element.parentElement.style.display = 'none';
+    };
 }
 
-function createNewColumn() {
-    const template = document.getElementById('column-template').content.cloneNode(true);
-    document.querySelector('.columns-container').appendChild(template);
+// функция для переименования по двойному клику
+function renameColumnInline(element) {
+    element.contentEditable = 'true';
+    element.focus();
+    element.onblur = function() {
+        element.contentEditable = 'false';
+    };
 }
+
+
 
 // function addNewTask(button) {
 //     const tasksContainer = button.nextElementSibling;

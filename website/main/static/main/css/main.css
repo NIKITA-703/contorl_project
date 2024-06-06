@@ -501,6 +501,9 @@ form {
 
 .column .task-header h2 {
     margin: 0;
+    outline: none; /* Убираем синюю обводку */
+    word-wrap: break-word; /* Переносим длинные слова */
+    word-break: break-word; /* Переносим слова по любой точке */
 }
 
 .column .task-header .dropdown {
@@ -562,6 +565,10 @@ form {
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+
+
+
 
 
 
