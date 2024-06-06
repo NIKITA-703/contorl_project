@@ -1,8 +1,3 @@
-// task.js
-
-// task.js
-
-// Функция для создания новой колонки
 function createNewColumn() {
     const template = document.querySelector('#column-template'); // Получаем шаблон колонки
     const columnsContainer = document.querySelector('.columns-container'); // Получаем контейнер для колонок
@@ -18,6 +13,7 @@ function addTask(button) {
     taskContainer.innerText = 'Новая задача'; // Устанавливаем текст для новой задачи
     const tasksContainer = button.nextElementSibling; // Получаем контейнер задач
     tasksContainer.appendChild(taskContainer); // Добавляем новый элемент задачи в контейнер задач
+    taskContainer.focus(); // Фокусируемся на новом элементе
 }
 
 // Функция для переключения меню
@@ -51,6 +47,13 @@ function renameColumn(element) {
         }
         header.contentEditable = 'false';
     };
+
+    element.onblur = function() {
+        if (element.textContent.trim() === '') {
+            element.textContent = prevName; // Если новое название пустое, возвращаем предыдущее
+        }
+        element.contentEditable = 'false'; // Убираем редактирование
+    };
 }
 
 // Функция для переименования по двойному клику
@@ -66,14 +69,6 @@ function renameColumnInline(element) {
     };
 }
 
-// Добавляем событие двойного клика для переименования колонки
-document.addEventListener('dblclick', function(event) {
-    if (event.target.matches('.task-header h2')) {
-        renameColumnInline(event.target); // Переименовываем колонку по двойному клику
-    }
-});
-
-// Добавляем событие клика для скрытия контекстного меню при клике вне его
 document.addEventListener('click', function(event) {
     const menus = document.querySelectorAll('.dropdown-menu'); // Получаем все элементы меню
     menus.forEach(menu => {

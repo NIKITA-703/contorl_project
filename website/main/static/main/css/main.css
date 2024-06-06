@@ -475,6 +475,7 @@ form {
     width: 300px;
     min-width: 300px;
     flex-shrink: 0;
+    position: relative; /* Ensure the dropdown is positioned relative to the column */
 }
 
 .management-container .controls .btn {
@@ -530,6 +531,8 @@ form {
     padding: 10px;
     margin-bottom: 10px;
     position: relative;
+    word-wrap: break-word; /* Переносим длинные слова */
+    word-break: break-word; /* Переносим слова по любой точке */
 }
 
 .column .task:focus {
