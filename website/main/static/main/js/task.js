@@ -1,10 +1,18 @@
 let previousValue = '';
+let tasknumber = 0;
 
 function createNewColumn() {
     const template = document.querySelector('#column-template'); // Получаем шаблон колонки
     const columnsContainer = document.querySelector('.columns-container'); // Получаем контейнер для колонок
     const clone = document.importNode(template.content, true); // Клонируем содержимое шаблона
+
+    const columnWrapper = clone.querySelector('.column-wrapper');
+    columnWrapper.classList.remove('column-wrapper'); // Удаляем исходный класс
+    columnWrapper.classList.add(`column-wrapper-${tasknumber++}`); // Добавляем инкрементирующий класс
+
     columnsContainer.appendChild(clone); // Добавляем клонированный шаблон в контейнер колонок
+
+    console.log(tasknumber);
 }
 
 function storePreviousValue(element) {
@@ -25,7 +33,8 @@ function addTask(button) {
     taskContainer.innerText = 'Новая задача'; // Устанавливаем текст для новой задачи
     taskContainer.onfocus = function() { storePreviousValue(taskContainer); };
     taskContainer.onblur = function() { checkIfEmpty(taskContainer, 'Новая задача'); };
-    const tasksContainer = button.nextElementSibling; // Получаем контейнер задач
+    const column = button.closest(`.column`); // Находим ближайший родительский элемент с классом column
+    const tasksContainer = column.querySelector(`.task-list`); // Получаем контейнер задач в найденной колонке
     tasksContainer.appendChild(taskContainer); // Добавляем новый элемент задачи в контейнер задач
     taskContainer.focus(); // Фокусируемся на новом элементе
 }

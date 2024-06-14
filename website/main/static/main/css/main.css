@@ -470,6 +470,21 @@ form {
     /*flex-wrap: wrap;  Добавляем flex-wrap */
 }
 
+.columns-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    width: 100%;
+    overflow-x: auto;
+}
+
+.column-wrapper {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
 .column {
     background: #fff;
     border-radius: 8px;
@@ -482,7 +497,7 @@ form {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 10px;    
 }
 
 .management-container .controls .btn {
