@@ -458,6 +458,7 @@ form {
 
 .controls {
     margin-bottom: 20px;
+    justify-content: center;
 }
 
 .columns-container {
@@ -465,6 +466,8 @@ form {
     gap: 1.5rem;
     width: 100%;
     overflow-x: auto;
+/*    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));*/
+    /*flex-wrap: wrap;  Добавляем flex-wrap */
 }
 
 .column {
@@ -476,6 +479,10 @@ form {
     min-width: 300px;
     flex-shrink: 0;
     position: relative; /* Ensure the dropdown is positioned relative to the column */
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .management-container .controls .btn {
@@ -491,6 +498,7 @@ form {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 10px;
     margin-bottom: 10px;
+    cursor: text;
 }
 
 .column .task-header {
@@ -515,6 +523,12 @@ form {
 
 .column .add-task:hover {
     text-decoration: none;
+}
+
+.task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .column .task-list {

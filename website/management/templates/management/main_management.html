@@ -15,7 +15,7 @@
 <template id="column-template">
     <div class="column">
         <div class="task-header">
-            <h2 contenteditable="true" onblur="checkIfEmpty(this, 'Новая задача')" onfocus="storePreviousValue(this)">Новая задача</h2>
+            <h2 ondblclick="renameColumnInline(this)">Новая задача</h2>
             <div class="dropdown">
                 <i class="bi bi-three-dots-vertical" onclick="toggleMenu(this)"></i>
                 <div class="dropdown-menu">
