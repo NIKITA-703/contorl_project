@@ -12,7 +12,7 @@ function createNewColumn() {
 
     columnsContainer.appendChild(clone); // Добавляем клонированный шаблон в контейнер колонок
 
-    console.log(tasknumber);
+    // console.log(tasknumber);
 }
 
 function storePreviousValue(element) {
