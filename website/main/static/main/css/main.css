@@ -467,7 +467,7 @@ form {
     width: 100%;
     overflow-x: auto;
 /*    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));*/
-    flex-wrap: wrap; /* Добавляем flex-wrap  УБРАТЬ ПОТОМ  */
+    /*flex-wrap: wrap;  Добавляем flex-wrap  УБРАТЬ ПОТОМ  */
 }
 
 .columns-wrapper {

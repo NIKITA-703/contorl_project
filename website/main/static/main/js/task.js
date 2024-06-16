@@ -52,6 +52,23 @@ function toggleMenu(element) {
     }
 }
 
+// Функция для переключения меню подзадач
+function toggleTaskMenu(element) {
+    const menu = element.nextElementSibling; // Получаем следующий элемент (меню)
+    if (menu.style.display === 'block') {
+        menu.style.display = 'none'; // Если меню отображается, скрываем его
+    } else {
+        menu.style.display = 'block'; // Если меню скрыто, отображаем его
+    }
+}
+
+// Функция для удаления подзадачи
+function deleteSubtask(button) {
+    const task = button.closest('.task'); // Получаем ближайший родительский элемент с классом task
+    task.remove(); // Удаляем подзадачу из DOM
+    saveTasks(); // Сохраняем задачи после удаления подзадачи
+}
+
 // Функция для удаления колонки
 function deleteColumn(element) {
     const column = element.closest('.column-wrapper');

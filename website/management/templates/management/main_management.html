@@ -19,7 +19,7 @@
                             <i class="bi bi-three-dots-vertical" onclick="toggleMenu(this)"></i>
                             <div class="dropdown-menu">
                                 <button class="dropdown-item" onclick="renameColumn(this)">Переименовать задачу</button>
-                                <button class="dropdown-item" onclick="deleteColumn(this)">Удалить задачу</button> <!-- Добавлено -->
+                                <button class="dropdown-item" onclick="deleteColumn(this)">Удалить задачу</button>
                             </div>
                         </div>
                     </div>
@@ -31,6 +31,10 @@
                         {% for sub_task in task.get_tasks %}
                         <div class="task" contentEditable="true" onfocus="storePreviousValue(this)" onblur="checkIfEmpty(this, 'Новая задача')">
                             {{ sub_task }}
+                            <i class="bi bi-three-dots-vertical" onclick="toggleTaskMenu(this)"></i>
+                            <div class="task-dropdown-menu">
+                                <button class="dropdown-item" onclick="deleteSubtask(this)">Удалить подзадачу</button>
+                            </div>
                         </div>
                         {% endfor %}
                     </div>
@@ -50,7 +54,7 @@
                     <i class="bi bi-three-dots-vertical" onclick="toggleMenu(this)"></i>
                     <div class="dropdown-menu">
                         <button class="dropdown-item" onclick="renameColumn(this)">Переименовать задачу</button>
-                        <button class="dropdown-item" onclick="deleteColumn(this)">Удалить задачу</button> <!-- Добавлено -->
+                        <button class="dropdown-item" onclick="deleteColumn(this)">Удалить задачу</button>
                     </div>
                 </div>
             </div>
@@ -61,6 +65,10 @@
                 </div>
                 <div class="task" contentEditable="true" onfocus="storePreviousValue(this)" onblur="checkIfEmpty(this, 'Новая задача')">
                     Новая задача
+                    <i class="bi bi-three-dots-vertical" onclick="toggleTaskMenu(this)"></i>
+                    <div class="task-dropdown-menu">
+                        <button class="dropdown-item" onclick="deleteSubtask(this)">Удалить подзадачу</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -73,7 +81,69 @@
 
 
 
+<!--<div class="management-container">-->
+<!--    <div class="controls">-->
+<!--        <button class="btn btn-success" type="button" onclick="createNewColumn()">Создать новую задачу</button>-->
+<!--    </div>-->
+<!--    <div class="columns-wrapper">-->
+<!--        <div class="columns-container">-->
+<!--            {% for task in tasks %}-->
+<!--            <div class="column-wrapper">-->
+<!--                <div class="column" data-task-id="{{ task.id }}">-->
+<!--                    <div class="task-header">-->
+<!--                        <h2 ondblclick="renameColumnInline(this)">{{ task.title }}</h2>-->
+<!--                        <div class="dropdown">-->
+<!--                            <i class="bi bi-three-dots-vertical" onclick="toggleMenu(this)"></i>-->
+<!--                            <div class="dropdown-menu">-->
+<!--                                <button class="dropdown-item" onclick="renameColumn(this)">Переименовать задачу</button>-->
+<!--                                <button class="dropdown-item" onclick="deleteColumn(this)">Удалить задачу</button> &lt;!&ndash; Добавлено &ndash;&gt;-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <span class="add-task" onclick="addTask(this)">+ Добавить задачу</span>-->
+<!--                    <div class="task-list">-->
+<!--                        <div class="task-description" contentEditable="true" onfocus="storePreviousValue(this)" onblur="checkIfEmpty(this, 'Описание задачи')">-->
+<!--                            Описание задачи-->
+<!--                        </div>-->
+<!--                        {% for sub_task in task.get_tasks %}-->
+<!--                        <div class="task" contentEditable="true" onfocus="storePreviousValue(this)" onblur="checkIfEmpty(this, 'Новая задача')">-->
+<!--                            {{ sub_task }}-->
+<!--                        </div>-->
+<!--                        {% endfor %}-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            {% endfor %}-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 
+<!--<template id="column-template">-->
+<!--    <div class="column-wrapper">-->
+<!--        <div class="column">-->
+<!--            <div class="task-header">-->
+<!--                <h2 ondblclick="renameColumnInline(this)">Новая задача</h2>-->
+<!--                <div class="dropdown">-->
+<!--                    <i class="bi bi-three-dots-vertical" onclick="toggleMenu(this)"></i>-->
+<!--                    <div class="dropdown-menu">-->
+<!--                        <button class="dropdown-item" onclick="renameColumn(this)">Переименовать задачу</button>-->
+<!--                        <button class="dropdown-item" onclick="deleteColumn(this)">Удалить задачу</button> &lt;!&ndash; Добавлено &ndash;&gt;-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <span class="add-task" onclick="addTask(this)">+ Добавить задачу</span>-->
+<!--            <div class="task-list">-->
+<!--                <div class="task-description" contentEditable="true" onfocus="storePreviousValue(this)" onblur="checkIfEmpty(this, 'Описание задачи')">-->
+<!--                    Описание задачи-->
+<!--                </div>-->
+<!--                <div class="task" contentEditable="true" onfocus="storePreviousValue(this)" onblur="checkIfEmpty(this, 'Новая задача')">-->
+<!--                    Новая задача-->
+<!--                </div>-->
+
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</template>-->
 
 
 
