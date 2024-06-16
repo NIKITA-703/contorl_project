@@ -24,6 +24,6 @@ class TaskAdminForm(forms.ModelForm):
             self.fields['tasks'].initial = "\n".join(tasks_list)
 
     def clean_tasks(self):
-        tasks = self.cleaned_data.get('tasks', '')
-        tasks_list = tasks.split('\n')  # Разделяем задачи по строкам
+        tasks_data = self.cleaned_data['tasks']
+        tasks_list = tasks_data.splitlines()
         return json.dumps(tasks_list, ensure_ascii=False)
