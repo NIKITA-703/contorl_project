@@ -64,8 +64,8 @@ function toggleTaskMenu(element) {
 
 // Функция для удаления подзадачи
 function deleteSubtask(button) {
-    const task = button.closest('.task'); // Получаем ближайший родительский элемент с классом task
-    task.remove(); // Удаляем подзадачу из DOM
+    const taskWrapper = button.closest('.task-wrapper');
+    taskWrapper.remove(); // Удаляем подзадачу из DOM
     saveTasks(); // Сохраняем задачи после удаления подзадачи
 }
 
@@ -145,6 +145,14 @@ document.addEventListener('click', function(event) {
         // Если клик не внутри меню и не на кнопку с тремя точками
         if (!menu.contains(event.target) && !menu.previousElementSibling.contains(event.target)) {
             menu.style.display = 'none'; // Скрываем меню
+        }
+    });
+
+    const taskMenus = document.querySelectorAll('.task-dropdown-menu'); // Получаем все элементы меню подзадач
+    taskMenus.forEach(menu => {
+        // Если клик не внутри меню и не на кнопку с тремя точками
+        if (!menu.contains(event.target) && !menu.previousElementSibling.contains(event.target)) {
+            menu.style.display = 'none';
         }
     });
 });

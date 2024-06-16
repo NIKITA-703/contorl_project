@@ -663,7 +663,35 @@ form {
 }
 
 
+.task-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
 
+.task-dropdown-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-radius: 3px;
+    z-index: 10;
+}
+
+.task-wrapper:hover .bi-three-dots-vertical {
+    display: block;
+    cursor: pointer;
+}
+
+.task-wrapper .bi-three-dots-vertical {
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.task-wrapper .task-dropdown-menu .dropdown-item {
+    padding: 5px 10px;
+}
 
 
 
