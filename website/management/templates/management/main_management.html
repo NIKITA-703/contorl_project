@@ -9,7 +9,31 @@
         <button class="btn btn-success" type="button" onclick="createNewColumn()">Создать новую задачу</button>
     </div>
     <div class="columns-wrapper">
-        <div class="columns-container"></div>
+        <div class="columns-container">
+            {% for task in tasks %}
+            <div class="column-wrapper">
+                <div class="column" data-task-id="{{ task.id }}">
+                    <div class="task-header">
+                        <h2 ondblclick="renameColumnInline(this)">{{ task.title }}</h2>
+                        <div class="dropdown">
+                            <i class="bi bi-three-dots-vertical" onclick="toggleMenu(this)"></i>
+                            <div class="dropdown-menu">
+                                <button class="dropdown-item" onclick="renameColumn(this)">Переименовать задачу</button>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="add-task" onclick="addTask(this)">+ Добавить задачу</span>
+                    <div class="task-list">
+                        {% for sub_task in task.get_tasks %}
+                        <div class="task" contentEditable="true" onfocus="storePreviousValue(this)" onblur="checkIfEmpty(this, 'Описание задачи')">
+                            {{ sub_task }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
     </div>
 </div>
 
@@ -18,7 +42,7 @@
     <div class="column-wrapper">
         <div class="column">
             <div class="task-header">
-                <h2 ondblclick="renameColumnInline(this)">Новая задача</h2>
+                 <h2 ondblclick="renameColumnInline(this)">Новая задача</h2>
                 <div class="dropdown">
                     <i class="bi bi-three-dots-vertical" onclick="toggleMenu(this)"></i>
                     <div class="dropdown-menu">
@@ -35,6 +59,53 @@
         </div>
     </div>
 </template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<div class="management-container">-->
+<!--    <div class="controls">-->
+<!--        <button class="btn btn-success" type="button" onclick="createNewColumn()">Создать новую задачу</button>-->
+<!--    </div>-->
+<!--    <div class="columns-wrapper">-->
+<!--        <div class="columns-container"></div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--&lt;!&ndash; Шаблон для новой колонки &ndash;&gt;-->
+<!--<template id="column-template">-->
+<!--    <div class="column-wrapper">-->
+<!--        <div class="column">-->
+<!--            <div class="task-header">-->
+<!--               <h2 contenteditable="true">Новая задача</h2> &lt;!&ndash; <h2 ondblclick="renameColumnInline(this)">Новая задача</h2> &ndash;&gt;-->
+<!--                <div class="dropdown">-->
+<!--                    <i class="bi bi-three-dots-vertical" onclick="toggleMenu(this)"></i>-->
+<!--                    <div class="dropdown-menu">-->
+<!--                        <button class="dropdown-item" onclick="renameColumn(this)">Переименовать задачу</button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <span class="add-task" onclick="addTask(this)">+ Добавить задачу</span>-->
+<!--            <div class="task-list">-->
+<!--                <div class="task" contentEditable="true" onfocus="storePreviousValue(this)" onblur="checkIfEmpty(this, 'Описание задачи')">-->
+<!--                    Описание задачи-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</template>-->
 
 
 

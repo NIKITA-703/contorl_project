@@ -12,7 +12,7 @@ function createNewColumn() {
 
     columnsContainer.appendChild(clone); // Добавляем клонированный шаблон в контейнер колонок
 
-    // console.log(tasknumber);
+    saveTasks(); // Сохраняем задачи после добавления новой колонки
 }
 
 function storePreviousValue(element) {
@@ -23,6 +23,7 @@ function checkIfEmpty(element, defaultValue) {
     if (element.innerText.trim() === '') {
         element.innerText = previousValue || defaultValue; // Если пусто, возвращаем предыдущее значение или значение по умолчанию
     }
+    saveTasks(); // Сохраняем задачи после изменения
 }
 
 // Функция для добавления новой задачи
@@ -37,6 +38,8 @@ function addTask(button) {
     const tasksContainer = column.querySelector(`.task-list`); // Получаем контейнер задач в найденной колонке
     tasksContainer.appendChild(taskContainer); // Добавляем новый элемент задачи в контейнер задач
     taskContainer.focus(); // Фокусируемся на новом элементе
+
+    saveTasks(); // Сохраняем задачи после добавления новой задачи
 }
 
 // Функция для переключения меню
@@ -69,6 +72,7 @@ function renameColumn(element) {
             header.textContent = previousValue;
         }
         header.contentEditable = 'false';
+        saveTasks(); // Сохраняем задачи после изменения заголовка
     };
 }
 
@@ -82,6 +86,7 @@ function renameColumnInline(element) {
             element.textContent = prevName; // Если новое название пустое, возвращаем предыдущее
         }
         element.contentEditable = 'false'; // Убираем редактирование
+        saveTasks(); // Сохраняем задачи после изменения заголовка
     };
 }
 
@@ -95,9 +100,52 @@ document.addEventListener('click', function(event) {
     });
 });
 
+function saveTasks() {
+    const columns = document.querySelectorAll('.column');
+    columns.forEach(column => {
+        const taskHeader = column.querySelector('h2').innerText;
+        const tasks = Array.from(column.querySelectorAll('.task')).map(task => task.innerText);
+        const taskId = column.dataset.taskId;
 
+        const data = {
+            task_id: taskId,
+            title: taskHeader,
+            tasks: tasks,
+        };
 
+        fetch('/save_task/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    });
+}
 
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
 
 // function addNewTask(button) {
 //     const tasksContainer = button.nextElementSibling;
