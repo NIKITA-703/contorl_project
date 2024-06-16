@@ -52,6 +52,38 @@ function toggleMenu(element) {
     }
 }
 
+// Функция для удаления колонки
+function deleteColumn(element) {
+    const column = element.closest('.column-wrapper');
+    const taskId = column.querySelector('.column').dataset.taskId;
+    if (taskId) {
+        fetch(`delete_task/${taskId}/`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Success:', data);
+            if (data.status === 'success') {
+                column.parentElement.removeChild(column); // Удаляем колонку из DOM
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    } else {
+        column.parentElement.removeChild(column); // Удаляем колонку из DOM, если taskId нет
+    }
+}
+
 // Функция для переименования колонки
 function renameColumn(element) {
     // Скрываем меню

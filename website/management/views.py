@@ -19,6 +19,7 @@ def main_management(request):
     return render(request, 'management/main_management.html', context)
 
 
+@csrf_exempt
 @login_required
 def create_task(request):
     if request.method == 'POST':
@@ -26,6 +27,16 @@ def create_task(request):
         return redirect('management:main_management')
     return redirect('management:main_management')
 
+
+@csrf_exempt
+@login_required
+def delete_task(request, task_id):
+    try:
+        task = Task.objects.get(id=task_id, user=request.user)
+        task.delete()
+        return JsonResponse({'status': 'success'})
+    except Task.DoesNotExist:
+        return JsonResponse({'status': 'failed', 'message': 'Task not found'}, status=404)
 
 @csrf_exempt
 def save_task(request):
