@@ -104,16 +104,18 @@ function saveTasks() {
     const columns = document.querySelectorAll('.column');
     columns.forEach(column => {
         const taskHeader = column.querySelector('h2').innerText;
+        const taskDescription = column.querySelector('.task-description').innerText;
         const tasks = Array.from(column.querySelectorAll('.task')).map(task => task.innerText);
         const taskId = column.dataset.taskId;
 
         const data = {
             task_id: taskId,
             title: taskHeader,
+            description: taskDescription,
             tasks: tasks,
         };
 
-        fetch('/save_task/', {
+        fetch('save_task/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -121,9 +123,17 @@ function saveTasks() {
             },
             body: JSON.stringify(data),
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
         .then(data => {
             console.log('Success:', data);
+            if (!taskId) {
+                column.dataset.taskId = data.task_id; // Обновляем taskId, если он был создан заново
+            }
         })
         .catch((error) => {
             console.error('Error:', error);

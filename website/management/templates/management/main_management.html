@@ -24,8 +24,11 @@
                     </div>
                     <span class="add-task" onclick="addTask(this)">+ Добавить задачу</span>
                     <div class="task-list">
+                        <div class="task-description" contentEditable="true" onfocus="storePreviousValue(this)" onblur="checkIfEmpty(this, 'Описание задачи')">
+                            Описание задачи
+                        </div>
                         {% for sub_task in task.get_tasks %}
-                        <div class="task" contentEditable="true" onfocus="storePreviousValue(this)" onblur="checkIfEmpty(this, 'Описание задачи')">
+                        <div class="task" contentEditable="true" onfocus="storePreviousValue(this)" onblur="checkIfEmpty(this, 'Новая задача')">
                             {{ sub_task }}
                         </div>
                         {% endfor %}
@@ -37,12 +40,11 @@
     </div>
 </div>
 
-<!-- Шаблон для новой колонки -->
 <template id="column-template">
     <div class="column-wrapper">
         <div class="column">
             <div class="task-header">
-                 <h2 ondblclick="renameColumnInline(this)">Новая задача</h2>
+                <h2 ondblclick="renameColumnInline(this)">Новая задача</h2>
                 <div class="dropdown">
                     <i class="bi bi-three-dots-vertical" onclick="toggleMenu(this)"></i>
                     <div class="dropdown-menu">
@@ -52,8 +54,11 @@
             </div>
             <span class="add-task" onclick="addTask(this)">+ Добавить задачу</span>
             <div class="task-list">
-                <div class="task" contentEditable="true" onfocus="storePreviousValue(this)" onblur="checkIfEmpty(this, 'Описание задачи')">
+                <div class="task-description" contentEditable="true" onfocus="storePreviousValue(this)" onblur="checkIfEmpty(this, 'Описание задачи')">
                     Описание задачи
+                </div>
+                <div class="task" contentEditable="true" onfocus="storePreviousValue(this)" onblur="checkIfEmpty(this, 'Новая задача')">
+                    Новая задача
                 </div>
             </div>
         </div>

@@ -2,13 +2,11 @@ import json
 
 from django.contrib.auth.decorators import login_required
 from django.contrib import auth, messages
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
-from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import Task
-from .forms import TaskForm
 
 
 @login_required
@@ -19,6 +17,7 @@ def main_management(request):
         'tasks': tasks,
     }
     return render(request, 'management/main_management.html', context)
+
 
 @login_required
 def create_task(request):
@@ -35,17 +34,25 @@ def save_task(request):
         task_id = data.get('task_id')
         title = data.get('title')
         description = data.get('description')
-        tasks = data.get('tasks', [])
+        tasks = data.get('tasks')
 
-        task, created = Task.objects.get_or_create(id=task_id, defaults={'user': request.user, 'title': title, 'description': description})
-        if not created:
+        if task_id:
+            task = Task.objects.get(id=task_id)
             task.title = title
             task.description = description
-            task.set_tasks(tasks)
-            task.save()
+            task.tasks = json.dumps(tasks, ensure_ascii=False)
+        else:
+            task = Task.objects.create(
+                user=request.user,
+                title=title,
+                description=description,
+                tasks=json.dumps(tasks, ensure_ascii=False)
+            )
+
+        task.save()
 
         return JsonResponse({'status': 'success', 'task_id': task.id})
-    return JsonResponse({'status': 'error'}, status=400)
+    return JsonResponse({'status': 'failed'}, status=400)
 
 
 

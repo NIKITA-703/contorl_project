@@ -7,5 +7,5 @@ app_name = 'management'
 urlpatterns = [
     path('', views.main_management, name="main_management"),
     path('tasks/create/', views.create_task, name='create_task'),
-    path('save_task/', views.create_task, name='save_task'),
+    path('save_task/', views.save_task, name='save_task'),
 ]

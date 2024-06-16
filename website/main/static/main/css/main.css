@@ -516,6 +516,16 @@ form {
     cursor: text;
 }
 
+.task-description {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    margin-bottom: 2px;
+    cursor: text;
+}
+
 .column .task-header {
     display: flex;
     justify-content: space-between;
