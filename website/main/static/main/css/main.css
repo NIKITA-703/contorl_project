@@ -663,36 +663,27 @@ form {
 }
 
 
-.task-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
-.task-dropdown-menu {
+#context-menu {
     display: none;
     position: absolute;
-    right: 0;
-    background: white;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    border-radius: 3px;
-    z-index: 10;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    padding: 10px;
+    z-index: 1011; /* Увеличим z-index */
 }
 
-.task-wrapper:hover .bi-three-dots-vertical {
-    display: block;
+#context-menu .dropdown-item {
+    background: none;
+    border: none;
+    padding: 8px 16px;
+    text-align: left;
     cursor: pointer;
+    width: 100%;
 }
 
-.task-wrapper .bi-three-dots-vertical {
-    margin-left: 10px;
-    cursor: pointer;
+#context-menu .dropdown-item:hover {
+    background-color: #f1f1f1;
 }
-
-.task-wrapper .task-dropdown-menu .dropdown-item {
-    padding: 5px 10px;
-}
-
-
 
 

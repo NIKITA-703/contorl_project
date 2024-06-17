@@ -29,13 +29,9 @@
                             Описание задачи
                         </div>
                         {% for sub_task in task.get_tasks %}
-                        <div class="task-wrapper">
+                        <div class="task-wrapper" oncontextmenu="showContextMenu(event, this)">
                             <div class="task" contentEditable="true" onfocus="storePreviousValue(this)" onblur="checkIfEmpty(this, 'Новая задача')">
                                 {{ sub_task }}
-                            </div>
-                            <i class="bi bi-three-dots-vertical" onclick="toggleTaskMenu(this)"></i>
-                            <div class="task-dropdown-menu">
-                                <button class="dropdown-item" onclick="deleteSubtask(this)">Удалить подзадачу</button>
                             </div>
                         </div>
                         {% endfor %}
@@ -65,13 +61,9 @@
                 <div class="task-description" contentEditable="true" onfocus="storePreviousValue(this)" onblur="checkIfEmpty(this, 'Описание задачи')">
                     Описание задачи
                 </div>
-                <div class="task-wrapper">
+                <div class="task-wrapper" oncontextmenu="showContextMenu(event, this)">
                     <div class="task" contentEditable="true" onfocus="storePreviousValue(this)" onblur="checkIfEmpty(this, 'Новая задача')">
                         Новая задача
-                    </div>
-                    <i class="bi bi-three-dots-vertical" onclick="toggleTaskMenu(this)"></i>
-                    <div class="task-dropdown-menu">
-                        <button class="dropdown-item" onclick="deleteSubtask(this)">Удалить подзадачу</button>
                     </div>
                 </div>
             </div>
@@ -79,7 +71,10 @@
     </div>
 </template>
 
-
+<!-- Контекстное меню для подзадач -->
+<div id="context-menu" class="dropdown-menu">
+    <div class="dropdown-item" onclick="deleteSubtask()">Удалить подзадачу</div>
+</div>
 
 
 

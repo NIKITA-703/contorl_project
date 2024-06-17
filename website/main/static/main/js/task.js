@@ -1,5 +1,25 @@
-let previousValue = '';
+let previousValue = ''; //1
 let tasknumber = 0;
+let currentTaskWrapper = null;
+let mouseX = 0;
+let mouseY = 0;
+
+function trackMouseEvents() {
+    document.addEventListener('mousemove', function(event) {
+        mouseX = event.clientX;
+        mouseY = event.clientY;
+        console.log(`Mouse moved to: (${mouseX}, ${mouseY})`);
+    });
+
+    document.addEventListener('mousedown', function(event) {
+        const button = event.button === 0 ? 'left' : event.button === 1 ? 'middle' : 'right';
+        console.log(`Mouse ${button} button pressed at: (${mouseX}, ${mouseY})`);
+    });
+}
+
+// Вызов функции для начала отслеживания
+trackMouseEvents();
+
 
 function createNewColumn() {
     const template = document.querySelector('#column-template'); // Получаем шаблон колонки
@@ -62,12 +82,92 @@ function toggleTaskMenu(element) {
     }
 }
 
-// Функция для удаления подзадачи
-function deleteSubtask(button) {
-    const taskWrapper = button.closest('.task-wrapper');
-    taskWrapper.remove(); // Удаляем подзадачу из DOM
-    saveTasks(); // Сохраняем задачи после удаления подзадачи
+
+// ПКМ ПО ПОДЗАДАЧЕ ///////
+
+document.addEventListener('click', function(event) {
+    const contextMenu = document.getElementById('context-menu');
+    if (contextMenu.style.display === 'block' && !contextMenu.contains(event.target)) {
+        contextMenu.style.display = 'none'; // Скрываем меню, если клик не внутри меню
+        console.log('Контекстное меню скрыто при клике вне его области');
+    }
+});
+
+document.addEventListener('contextmenu', function(event) {
+    if (event.target.classList.contains('task')) {
+        event.preventDefault();
+        showContextMenu(event, event.target.closest('.task')); // Передаем событие и текущий элемент подзадачи
+        console.log('Контекстное меню отображено при ПКМ на задаче');
+    }
+});
+
+function showContextMenu(e, taskWrapper) {
+    e.preventDefault();
+    currentTaskWrapper = taskWrapper; // Сохраняем текущий элемент подзадачи
+
+    const contextMenu = document.getElementById('context-menu');
+    contextMenu.style.display = 'block';
+
+    const position = positionMenu(); // Получаем координаты для позиционирования
+
+    contextMenu.style.top = position.Y;
+    contextMenu.style.left = position.X;
+
+    // Добавим проверку родительского элемента
+    if (contextMenu.parentElement !== document.body) {
+        document.body.appendChild(contextMenu);
+    }
+
+    console.log(`Контекстное меню позиционировано на (${position.X}, ${position.Y})`);
+    console.log(`Текущий стиль меню: top = ${contextMenu.style.top}, left = ${contextMenu.style.left}, display = ${contextMenu.style.display}`);
+    console.log(`Родительский элемент: ${contextMenu.parentElement}`);
 }
+
+function positionMenu() {
+    const menu = document.getElementById('context-menu');
+    const menuWidth = menu.offsetWidth;
+    const menuHeight = menu.offsetHeight;
+
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+
+    let posX = mouseX;
+    let posY = mouseY;
+
+    if ((windowWidth - mouseX) < menuWidth) {
+        posX = windowWidth - menuWidth - 10; // Отступ от правого края окна
+    }
+
+    if ((windowHeight - mouseY) < menuHeight) {
+        posY = windowHeight - menuHeight - 10; // Отступ от нижнего края окна
+    }
+
+    console.log(`Координаты мыши: (${mouseX}, ${mouseY}), Размеры меню: (${menuWidth}, ${menuHeight}), Координаты окна: (${windowWidth}, ${windowHeight})`);
+    console.log(`Рассчитанные координаты меню: (${posX}, ${posY})`);
+
+    return {
+        Y: `${posY}px`,
+        X: `${posX}px`
+    };
+}
+
+function deleteSubtask() {
+    if (currentTaskWrapper) {
+        currentTaskWrapper.remove(); // Удаляем подзадачу из DOM
+        saveTasks(); // Сохраняем задачи после удаления подзадачи
+        document.getElementById('context-menu').style.display = 'none'; // Скрываем меню
+        console.log('Подзадача удалена');
+    }
+}
+
+window.onresize = function(e) {
+    const contextMenu = document.getElementById('context-menu');
+    if (contextMenu.style.display === 'block') {
+        contextMenu.style.display = 'none'; // Скрываем меню при изменении размера окна
+        console.log('Контекстное меню скрыто при изменении размера окна');
+    }
+};
+//      КОНЕЦ ПКМ       ///////
 
 // Функция для удаления колонки
 function deleteColumn(element) {
@@ -147,14 +247,7 @@ document.addEventListener('click', function(event) {
             menu.style.display = 'none'; // Скрываем меню
         }
     });
-
-    const taskMenus = document.querySelectorAll('.task-dropdown-menu'); // Получаем все элементы меню подзадач
-    taskMenus.forEach(menu => {
-        // Если клик не внутри меню и не на кнопку с тремя точками
-        if (!menu.contains(event.target) && !menu.previousElementSibling.contains(event.target)) {
-            menu.style.display = 'none';
-        }
-    });
+    
 });
 
 function saveTasks() {
