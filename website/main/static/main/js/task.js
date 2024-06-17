@@ -8,12 +8,12 @@ function trackMouseEvents() {
     document.addEventListener('mousemove', function(event) {
         mouseX = event.clientX;
         mouseY = event.clientY;
-        console.log(`Mouse moved to: (${mouseX}, ${mouseY})`);
+        // console.log(`Mouse moved to: (${mouseX}, ${mouseY})`);
     });
 
     document.addEventListener('mousedown', function(event) {
         const button = event.button === 0 ? 'left' : event.button === 1 ? 'middle' : 'right';
-        console.log(`Mouse ${button} button pressed at: (${mouseX}, ${mouseY})`);
+        // console.log(`Mouse ${button} button pressed at: (${mouseX}, ${mouseY})`);
     });
 }
 
@@ -27,9 +27,6 @@ function createNewColumn() {
     const clone = document.importNode(template.content, true); // Клонируем содержимое шаблона
 
     const columnWrapper = clone.querySelector('.column-wrapper');
-    columnWrapper.classList.remove('column-wrapper'); // Удаляем исходный класс
-    columnWrapper.classList.add(`column-wrapper-${tasknumber++}`); // Добавляем инкрементирующий класс
-
     columnsContainer.appendChild(clone); // Добавляем клонированный шаблон в контейнер колонок
 
     saveTasks(); // Сохраняем задачи после добавления новой колонки
@@ -89,7 +86,7 @@ document.addEventListener('click', function(event) {
     const contextMenu = document.getElementById('context-menu');
     if (contextMenu.style.display === 'block' && !contextMenu.contains(event.target)) {
         contextMenu.style.display = 'none'; // Скрываем меню, если клик не внутри меню
-        console.log('Контекстное меню скрыто при клике вне его области');
+        // console.log('Контекстное меню скрыто при клике вне его области');
     }
 });
 
@@ -97,7 +94,7 @@ document.addEventListener('contextmenu', function(event) {
     if (event.target.classList.contains('task')) {
         event.preventDefault();
         showContextMenu(event, event.target.closest('.task')); // Передаем событие и текущий элемент подзадачи
-        console.log('Контекстное меню отображено при ПКМ на задаче');
+        // console.log('Контекстное меню отображено при ПКМ на задаче');
     }
 });
 
@@ -118,9 +115,9 @@ function showContextMenu(e, taskWrapper) {
         document.body.appendChild(contextMenu);
     }
 
-    console.log(`Контекстное меню позиционировано на (${position.X}, ${position.Y})`);
-    console.log(`Текущий стиль меню: top = ${contextMenu.style.top}, left = ${contextMenu.style.left}, display = ${contextMenu.style.display}`);
-    console.log(`Родительский элемент: ${contextMenu.parentElement}`);
+    // console.log(`Контекстное меню позиционировано на (${position.X}, ${position.Y})`);
+    // console.log(`Текущий стиль меню: top = ${contextMenu.style.top}, left = ${contextMenu.style.left}, display = ${contextMenu.style.display}`);
+    // console.log(`Родительский элемент: ${contextMenu.parentElement}`);
 }
 
 function positionMenu() {
@@ -142,8 +139,8 @@ function positionMenu() {
         posY = windowHeight - menuHeight - 10; // Отступ от нижнего края окна
     }
 
-    console.log(`Координаты мыши: (${mouseX}, ${mouseY}), Размеры меню: (${menuWidth}, ${menuHeight}), Координаты окна: (${windowWidth}, ${windowHeight})`);
-    console.log(`Рассчитанные координаты меню: (${posX}, ${posY})`);
+    // console.log(`Координаты мыши: (${mouseX}, ${mouseY}), Размеры меню: (${menuWidth}, ${menuHeight}), Координаты окна: (${windowWidth}, ${windowHeight})`);
+    // console.log(`Рассчитанные координаты меню: (${posX}, ${posY})`);
 
     return {
         Y: `${posY}px`,
@@ -164,7 +161,7 @@ window.onresize = function(e) {
     const contextMenu = document.getElementById('context-menu');
     if (contextMenu.style.display === 'block') {
         contextMenu.style.display = 'none'; // Скрываем меню при изменении размера окна
-        console.log('Контекстное меню скрыто при изменении размера окна');
+        // console.log('Контекстное меню скрыто при изменении размера окна');
     }
 };
 //      КОНЕЦ ПКМ       ///////
@@ -172,33 +169,42 @@ window.onresize = function(e) {
 // Функция для удаления колонки
 function deleteColumn(element) {
     const column = element.closest('.column-wrapper');
-    const taskId = column.querySelector('.column').dataset.taskId;
-    if (taskId) {
-        fetch(`delete_task/${taskId}/`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': getCookie('csrftoken')
-            }
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Success:', data);
-            if (data.status === 'success') {
-                column.parentElement.removeChild(column); // Удаляем колонку из DOM
-            }
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
-    } else {
-        column.parentElement.removeChild(column); // Удаляем колонку из DOM, если taskId нет
+    if (!column) {
+        console.error('Column wrapper not found!');
+        return;
     }
+
+    const taskId = column.querySelector('.column').dataset.taskId;
+    console.log(`columnWrapper: ${column}`);
+    if (!taskId) {
+        // Если taskId отсутствует, просто удалим элемент из DOM
+        column.parentElement.removeChild(column);
+        console.log('Element without taskId removed from DOM');
+        return;
+    }
+
+    fetch(`delete_task/${taskId}/`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Success:', data);
+        if (data.status === 'success') {
+            column.parentElement.removeChild(column); // Удаляем колонку из DOM
+        }
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
 }
 
 // Функция для переименования колонки
