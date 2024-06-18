@@ -29,9 +29,14 @@
                             Описание задачи
                         </div>
                         {% for sub_task in task.get_tasks %}
-                        <div class="task-wrapper" oncontextmenu="showContextMenu(event, this)">
+                        <div class="task-wrapper"
+                             data-details="{{ sub_task.details }}"
+                             data-creator="{{ sub_task.creator }}"
+                             data-status="{{ sub_task.status }}"
+                             data-date="{{ sub_task.date }}"
+                             oncontextmenu="showContextMenu(event, this)">
                             <div class="task" contentEditable="true" onfocus="storePreviousValue(this)" onblur="checkIfEmpty(this, 'Новая задача')">
-                                {{ sub_task }}
+                                {{ sub_task.title }}
                             </div>
                         </div>
                         {% endfor %}
@@ -61,7 +66,12 @@
                 <div class="task-description" contentEditable="true" onfocus="storePreviousValue(this)" onblur="checkIfEmpty(this, 'Описание задачи')">
                     Описание задачи
                 </div>
-                <div class="task-wrapper" oncontextmenu="showContextMenu(event, this)">
+                <div class="task-wrapper"
+                     data-details="Описание задачи"
+                     data-creator="Создатель"
+                     data-status="не в процессе"
+                     data-date="Дата создания"
+                     oncontextmenu="showContextMenu(event, this)">
                     <div class="task" contentEditable="true" onfocus="storePreviousValue(this)" onblur="checkIfEmpty(this, 'Новая задача')">
                         Новая задача
                     </div>
@@ -73,11 +83,26 @@
 
 <!-- Контекстное меню для подзадач -->
 <div id="context-menu" class="dropdown-menu">
+    <div class="dropdown-item" onclick="openTaskDetails()">Открыть подзадачу</div>
     <div class="dropdown-item" onclick="deleteSubtask()">Удалить подзадачу</div>
 </div>
 
-
-
+<!-- Модальное окно для деталей подзадачи -->
+<div id="task-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2 id="task-name">Имя подзадачи</h2>
+        <p id="task-creator">Кто создал: </p>
+        <p id="task-status">Статус задачи:</p>
+        <select class="form-select" id="task-status-select">
+            <option value="выполнено">выполнено</option>
+            <option value="в процессе">в процессе</option>
+            <option value="не в процессе">не в процессе</option>
+        </select>
+        <textarea class="form-control" id="task-details" contentEditable="true"></textarea>
+        <p id="task-date">Дата создания: </p>
+    </div>
+</div>
 
 
 <!--<div class="management-container">-->

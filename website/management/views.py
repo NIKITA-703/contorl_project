@@ -66,6 +66,20 @@ def save_task(request):
     return JsonResponse({'status': 'failed'}, status=400)
 
 
+@login_required
+def get_task_details(request, task_id):
+    try:
+        task = Task.objects.get(id=task_id, user=request.user)
+        task_details = {
+            'task_name': task.title,
+            'task_details': task.description,
+            'task_creator': task.user.username,
+            'task_status': task.status,
+            'task_date': task.created_at.strftime('%d.%m.%Y'),
+        }
+        return JsonResponse({'status': 'success', 'task': task_details})
+    except Task.DoesNotExist:
+        return JsonResponse({'status': 'failed', 'message': 'Task not found'}, status=404)
 
 
 # # Основное представление для управления задачами

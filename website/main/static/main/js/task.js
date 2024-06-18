@@ -8,18 +8,15 @@ function trackMouseEvents() {
     document.addEventListener('mousemove', function(event) {
         mouseX = event.clientX;
         mouseY = event.clientY;
-        // console.log(`Mouse moved to: (${mouseX}, ${mouseY})`);
     });
 
     document.addEventListener('mousedown', function(event) {
         const button = event.button === 0 ? 'left' : event.button === 1 ? 'middle' : 'right';
-        // console.log(`Mouse ${button} button pressed at: (${mouseX}, ${mouseY})`);
     });
 }
 
 // Вызов функции для начала отслеживания
 trackMouseEvents();
-
 
 function createNewColumn() {
     const template = document.querySelector('#column-template'); // Получаем шаблон колонки
@@ -79,14 +76,12 @@ function toggleTaskMenu(element) {
     }
 }
 
-
 // ПКМ ПО ПОДЗАДАЧЕ ///////
 
 document.addEventListener('click', function(event) {
     const contextMenu = document.getElementById('context-menu');
     if (contextMenu.style.display === 'block' && !contextMenu.contains(event.target)) {
         contextMenu.style.display = 'none'; // Скрываем меню, если клик не внутри меню
-        // console.log('Контекстное меню скрыто при клике вне его области');
     }
 });
 
@@ -94,7 +89,6 @@ document.addEventListener('contextmenu', function(event) {
     if (event.target.classList.contains('task')) {
         event.preventDefault();
         showContextMenu(event, event.target.closest('.task')); // Передаем событие и текущий элемент подзадачи
-        // console.log('Контекстное меню отображено при ПКМ на задаче');
     }
 });
 
@@ -114,10 +108,6 @@ function showContextMenu(e, taskWrapper) {
     if (contextMenu.parentElement !== document.body) {
         document.body.appendChild(contextMenu);
     }
-
-    // console.log(`Контекстное меню позиционировано на (${position.X}, ${position.Y})`);
-    // console.log(`Текущий стиль меню: top = ${contextMenu.style.top}, left = ${contextMenu.style.left}, display = ${contextMenu.style.display}`);
-    // console.log(`Родительский элемент: ${contextMenu.parentElement}`);
 }
 
 function positionMenu() {
@@ -139,9 +129,6 @@ function positionMenu() {
         posY = windowHeight - menuHeight - 10; // Отступ от нижнего края окна
     }
 
-    // console.log(`Координаты мыши: (${mouseX}, ${mouseY}), Размеры меню: (${menuWidth}, ${menuHeight}), Координаты окна: (${windowWidth}, ${windowHeight})`);
-    // console.log(`Рассчитанные координаты меню: (${posX}, ${posY})`);
-
     return {
         Y: `${posY}px`,
         X: `${posX}px`
@@ -153,7 +140,6 @@ function deleteSubtask() {
         currentTaskWrapper.remove(); // Удаляем подзадачу из DOM
         saveTasks(); // Сохраняем задачи после удаления подзадачи
         document.getElementById('context-menu').style.display = 'none'; // Скрываем меню
-        console.log('Подзадача удалена');
     }
 }
 
@@ -161,7 +147,6 @@ window.onresize = function(e) {
     const contextMenu = document.getElementById('context-menu');
     if (contextMenu.style.display === 'block') {
         contextMenu.style.display = 'none'; // Скрываем меню при изменении размера окна
-        // console.log('Контекстное меню скрыто при изменении размера окна');
     }
 };
 //      КОНЕЦ ПКМ       ///////
@@ -312,6 +297,42 @@ function getCookie(name) {
     }
     return cookieValue;
 }
+
+// модальное окно ///
+
+function openTaskDetails() {
+    const modal = document.getElementById('task-modal');
+    const closeButton = document.querySelector('.modal .close');
+
+    // Установка данных модального окна
+    const taskName = currentTaskWrapper.innerText;
+    const taskDetails = currentTaskWrapper.dataset.details;
+    const taskCreator = currentTaskWrapper.dataset.creator;
+    const taskStatus = currentTaskWrapper.dataset.status;
+    const taskDate = currentTaskWrapper.dataset.date;
+
+    document.getElementById('task-name').innerText = taskName;
+    document.getElementById('task-details').value = taskDetails;
+    document.getElementById('task-creator').innerText = `Кто создал: ${taskCreator}`;
+    document.getElementById('task-status-select').value = taskStatus;
+    document.getElementById('task-date').innerText = `Дата создания: ${taskDate}`;
+
+    modal.style.display = 'block';
+
+    closeButton.onclick = function() {
+        modal.style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    }
+
+    // Закрытие контекстного меню
+    document.getElementById('context-menu').style.display = 'none';
+}
+
 
 // function addNewTask(button) {
 //     const tasksContainer = button.nextElementSibling;
