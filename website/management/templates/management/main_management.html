@@ -90,9 +90,13 @@
             <option value="не в процессе">не в процессе</option>
         </select>
         <textarea class="form-control" id="task-details" contentEditable="true"></textarea>
+        <p>Начало с:</p>
+        <input type="datetime-local" id="task-start-date" class="form-control">
+        <p>Конец по:</p>
+        <input type="datetime-local" id="task-end-date" class="form-control">
         <p>Закрепить задачу за:</p>
         <select class="form-select" id="task-assignee">
-            <option value="">---</option>
+            <option value="---">---</option>
             {% for user in users %}
                 <option value="{{ user.username }}">{{ user.username }}</option>
             {% endfor %}
@@ -116,7 +120,14 @@
 <!--            <option value="не в процессе">не в процессе</option>-->
 <!--        </select>-->
 <!--        <textarea class="form-control" id="task-details" contentEditable="true"></textarea>-->
-<!--        <p id="task-date-container">Дата создания: <span id="task-date"></span></p>-->
+<!--        <p>Закрепить задачу за:</p>-->
+<!--        <select class="form-select" id="task-assignee">-->
+<!--            <option value="">-&#45;&#45;</option>-->
+<!--            {% for user in users %}-->
+<!--                <option value="{{ user.username }}">{{ user.username }}</option>-->
+<!--            {% endfor %}-->
+<!--        </select>-->
+<!--        <p>Дата создания: <span id="task-date"></span></p>-->
 <!--    </div>-->
 <!--</div>-->
 

@@ -306,6 +306,7 @@ function saveTasks() {
     });
 }
 
+
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -338,6 +339,9 @@ function openTaskDetails() {
     const taskCreator = currentTaskWrapper.dataset.creator || currentUser || 'Неизвестно';
     const taskStatus = currentTaskWrapper.dataset.status || 'не в процессе';
     const taskDate = currentTaskWrapper.dataset.date || new Date().toLocaleString();
+    const taskStartDate = currentTaskWrapper.dataset.startdate || '';
+    const taskEndDate = currentTaskWrapper.dataset.enddate || '';
+
 
     // Логи для проверки значений
     console.log('Task Name:', taskName);
@@ -345,12 +349,16 @@ function openTaskDetails() {
     console.log('Task Creator:', taskCreator);
     console.log('Task Status:', taskStatus);
     console.log('Task Date:', taskDate);
+    console.log('Task Start Date:', taskStartDate);
+    console.log('Task End Date:', taskEndDate);
 
     document.getElementById('task-name').innerText = taskName;
     document.getElementById('task-details').value = taskDetails;
     document.getElementById('task-creator').innerText = `Автор: ${taskCreator}`;
     document.getElementById('task-status-select').value = taskStatus;
     document.getElementById('task-date').innerText = taskDate;
+    document.getElementById('task-start-date').innerText = taskStartDate;
+    document.getElementById('task-end-date').innerText = taskEndDate;
 
     modal.style.display = 'block';
 
@@ -378,15 +386,22 @@ function saveTaskDetails() {
         const taskDetails = document.getElementById('task-details').value;
         const taskStatus = document.getElementById('task-status-select').value;
         const taskDate = document.getElementById('task-date').innerText;
+        const taskStartDate = document.getElementById('task-start-date').innerText;
+        const taskEndDate = document.getElementById('task-end-date').innerText;
 
         // Сохраняем данные в атрибуты текущей подзадачи
         currentTaskWrapper.querySelector('.task').innerText = taskName;
 
         console.log(`querySelector в saveTaskDetails: ${ currentTaskWrapper.querySelector('.task').innerText} `);
 
+        console.log('Task Start Date saveTaskDetails:', taskStartDate);
+        console.log('Task End Date saveTaskDetails:', taskEndDate);
+
         currentTaskWrapper.dataset.details = taskDetails;
         currentTaskWrapper.dataset.status = taskStatus;
         currentTaskWrapper.dataset.date = taskDate;
+        currentTaskWrapper.dataset.startdate = taskStartDate;
+        currentTaskWrapper.dataset.enddate = taskEndDate;
 
         saveTasks(); // Сохраняем изменения задач
     }
