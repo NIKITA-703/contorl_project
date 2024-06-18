@@ -350,7 +350,7 @@ function openTaskDetails() {
     document.getElementById('task-details').value = taskDetails;
     document.getElementById('task-creator').innerText = `Автор: ${taskCreator}`;
     document.getElementById('task-status-select').value = taskStatus;
-    document.getElementById('task-date').innerText = `Дата создания: ${taskDate}`;
+    document.getElementById('task-date').innerText = taskDate;
 
     modal.style.display = 'block';
 
@@ -370,6 +370,7 @@ function openTaskDetails() {
 
     document.getElementById('context-menu').style.display = 'none'; // Скрываем меню
 }
+
 
 // Функция для сохранения деталей задачи
 function saveTaskDetails() {
@@ -391,6 +392,7 @@ function saveTaskDetails() {
         saveTasks(); // Сохраняем изменения задач
     }
 }
+
 
 
 // function addNewTask(button) {

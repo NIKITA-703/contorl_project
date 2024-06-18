@@ -90,11 +90,28 @@
             <option value="не в процессе">не в процессе</option>
         </select>
         <textarea class="form-control" id="task-details" contentEditable="true"></textarea>
-        <p id="task-date">Дата создания: </p>
+        <p id="task-date-container">Дата создания: <span id="task-date"></span></p>
     </div>
 </div>
 
 <input id="current-user" type="hidden" value="{{ user.username }}">
+
+
+<!--<div id="task-modal" class="modal">-->
+<!--    <div class="modal-content">-->
+<!--        <span class="close">&times;</span>-->
+<!--        <h2 id="task-name">Имя подзадачи</h2>-->
+<!--        <p id="task-creator">Автор: </p>-->
+<!--        <p>Статус задачи:</p>-->
+<!--        <select class="form-select" id="task-status-select">-->
+<!--            <option value="выполнено">выполнено</option>-->
+<!--            <option value="в процессе">в процессе</option>-->
+<!--            <option value="не в процессе">не в процессе</option>-->
+<!--        </select>-->
+<!--        <textarea class="form-control" id="task-details" contentEditable="true"></textarea>-->
+<!--        <p id="task-date">Дата создания: </p>-->
+<!--    </div>-->
+<!--</div>-->
 
 <!--<div class="management-container">-->
 <!--    <div class="controls">-->
