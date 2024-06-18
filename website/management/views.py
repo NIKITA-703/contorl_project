@@ -1,23 +1,25 @@
 import json
-
 from django.contrib.auth.decorators import login_required
 from django.contrib import auth, messages
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 
+
 from .models import Task
+from users.models import User
 
 
 @login_required
 def main_management(request):
     tasks = Task.objects.filter(user=request.user)
+    users = User.objects.all()  # Получаем всех пользователей
     context = {
         'title': 'Management',
         'tasks': tasks,
+        'users': users,  # Передаем список пользователей в контексте
     }
     return render(request, 'management/main_management.html', context)
-
 
 @csrf_exempt
 @login_required
@@ -26,7 +28,6 @@ def create_task(request):
         task = Task.objects.create(user=request.user, title="Новая задача")
         return redirect('management:main_management')
     return redirect('management:main_management')
-
 
 @csrf_exempt
 @login_required
@@ -37,7 +38,6 @@ def delete_task(request, task_id):
         return JsonResponse({'status': 'success'})
     except Task.DoesNotExist:
         return JsonResponse({'status': 'failed', 'message': 'Task not found'}, status=404)
-
 
 @csrf_exempt
 @login_required
@@ -66,7 +66,6 @@ def save_task(request):
         return JsonResponse({'status': 'success', 'task_id': task.id})
     return JsonResponse({'status': 'failed'}, status=400)
 
-
 @login_required
 def get_task_details(request, task_id):
     try:
@@ -81,7 +80,6 @@ def get_task_details(request, task_id):
         return JsonResponse({'status': 'success', 'task': task_details})
     except Task.DoesNotExist:
         return JsonResponse({'status': 'failed', 'message': 'Task not found'}, status=404)
-
 
 @csrf_exempt
 @login_required
@@ -112,6 +110,7 @@ def update_subtask(request):
         except Task.DoesNotExist:
             return JsonResponse({'status': 'failed', 'message': 'Task not found'}, status=404)
     return JsonResponse({'status': 'failed', 'message': 'Invalid request method'}, status=400)
+
 
 # # Основное представление для управления задачами
 # @login_required

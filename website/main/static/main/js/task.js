@@ -371,7 +371,6 @@ function openTaskDetails() {
     document.getElementById('context-menu').style.display = 'none'; // Скрываем меню
 }
 
-
 // Функция для сохранения деталей задачи
 function saveTaskDetails() {
     if (currentTaskWrapper) {
