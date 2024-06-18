@@ -29,14 +29,9 @@
                             Описание задачи
                         </div>
                         {% for sub_task in task.get_tasks %}
-                        <div class="task-wrapper"
-                             data-details="{{ sub_task.details }}"
-                             data-creator="{{ sub_task.creator }}"
-                             data-status="{{ sub_task.status }}"
-                             data-date="{{ sub_task.date }}"
-                             oncontextmenu="showContextMenu(event, this)">
+                        <div class="task-wrapper" data-details="" data-creator="Admin" data-status="не в процессе" data-date="">
                             <div class="task" contentEditable="true" onfocus="storePreviousValue(this)" onblur="checkIfEmpty(this, 'Новая задача')">
-                                {{ sub_task.title }}
+                                {{ sub_task }}
                             </div>
                         </div>
                         {% endfor %}
@@ -66,12 +61,7 @@
                 <div class="task-description" contentEditable="true" onfocus="storePreviousValue(this)" onblur="checkIfEmpty(this, 'Описание задачи')">
                     Описание задачи
                 </div>
-                <div class="task-wrapper"
-                     data-details="Описание задачи"
-                     data-creator="Создатель"
-                     data-status="не в процессе"
-                     data-date="Дата создания"
-                     oncontextmenu="showContextMenu(event, this)">
+                <div class="task-wrapper" oncontextmenu="showContextMenu(event, this)">
                     <div class="task" contentEditable="true" onfocus="storePreviousValue(this)" onblur="checkIfEmpty(this, 'Новая задача')">
                         Новая задача
                     </div>
@@ -93,7 +83,7 @@
         <span class="close">&times;</span>
         <h2 id="task-name">Имя подзадачи</h2>
         <p id="task-creator">Кто создал: </p>
-        <p id="task-status">Статус задачи:</p>
+        <p>Статус задачи:</p>
         <select class="form-select" id="task-status-select">
             <option value="выполнено">выполнено</option>
             <option value="в процессе">в процессе</option>
@@ -104,7 +94,7 @@
     </div>
 </div>
 
-
+<input id="current-user" type="hidden" value="{{ user.username }}">
 <!--<div class="management-container">-->
 <!--    <div class="controls">-->
 <!--        <button class="btn btn-success" type="button" onclick="createNewColumn()">Создать новую задачу</button>-->

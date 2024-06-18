@@ -42,6 +42,7 @@ function checkIfEmpty(element, defaultValue) {
 
 // Функция для добавления новой задачи
 function addTask(button) {
+    const currentUser = document.getElementById('current-user').value; // Получаем имя текущего пользователя
     const taskContainer = document.createElement('div'); // Создаем новый элемент div для задачи
     taskContainer.className = 'task'; // Присваиваем класс 'task' новому элементу
     taskContainer.contentEditable = 'true'; // Делаем новый элемент редактируемым
@@ -50,11 +51,23 @@ function addTask(button) {
     taskContainer.onblur = function() { checkIfEmpty(taskContainer, 'Новая задача'); };
     const column = button.closest(`.column`); // Находим ближайший родительский элемент с классом column
     const tasksContainer = column.querySelector(`.task-list`); // Получаем контейнер задач в найденной колонке
-    tasksContainer.appendChild(taskContainer); // Добавляем новый элемент задачи в контейнер задач
+    
+    const taskWrapper = document.createElement('div');
+    taskWrapper.className = 'task-wrapper';
+    taskWrapper.setAttribute('data-details', '');
+    taskWrapper.setAttribute('data-creator', currentUser); // Устанавливаем имя пользователя
+    taskWrapper.setAttribute('data-status', 'не в процессе');
+    taskWrapper.setAttribute('data-date', new Date().toLocaleString());
+    taskWrapper.oncontextmenu = function(event) { showContextMenu(event, taskWrapper); };
+
+    taskWrapper.appendChild(taskContainer); // Добавляем новый элемент задачи в taskWrapper
+    tasksContainer.appendChild(taskWrapper); // Добавляем taskWrapper в контейнер задач
+
     taskContainer.focus(); // Фокусируемся на новом элементе
 
     saveTasks(); // Сохраняем задачи после добавления новой задачи
 }
+
 
 // Функция для переключения меню
 function toggleMenu(element) {
@@ -304,12 +317,23 @@ function openTaskDetails() {
     const modal = document.getElementById('task-modal');
     const closeButton = document.querySelector('.modal .close');
 
+    // Получаем текущего пользователя
+    const currentUser = document.getElementById('current-user').value;
+    console.log(`Current User: ${currentUser}`);
+
     // Установка данных модального окна
-    const taskName = currentTaskWrapper.innerText;
-    const taskDetails = currentTaskWrapper.dataset.details;
-    const taskCreator = currentTaskWrapper.dataset.creator;
-    const taskStatus = currentTaskWrapper.dataset.status;
-    const taskDate = currentTaskWrapper.dataset.date;
+    const taskName = currentTaskWrapper.innerText || 'Неизвестно';
+    const taskDetails = currentTaskWrapper.dataset.details || '';
+    const taskCreator = currentTaskWrapper.dataset.creator || currentUser || 'Неизвестно';
+    const taskStatus = currentTaskWrapper.dataset.status || 'не в процессе';
+    const taskDate = currentTaskWrapper.dataset.date || new Date().toLocaleString();
+
+    // Логи для проверки значений
+    console.log('Task Name:', taskName);
+    console.log('Task Details:', taskDetails);
+    console.log('Task Creator:', taskCreator);
+    console.log('Task Status:', taskStatus);
+    console.log('Task Date:', taskDate);
 
     document.getElementById('task-name').innerText = taskName;
     document.getElementById('task-details').value = taskDetails;
@@ -329,8 +353,9 @@ function openTaskDetails() {
         }
     }
 
-    // Закрытие контекстного меню
-    document.getElementById('context-menu').style.display = 'none';
+    console.log(`Logged Task Creator: ${taskCreator}`);
+
+    document.getElementById('context-menu').style.display = 'none'; // Скрываем меню
 }
 
 
