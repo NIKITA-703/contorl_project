@@ -259,13 +259,15 @@ function saveTasks() {
         const taskHeader = column.querySelector('h2').innerText;
         const taskDescription = column.querySelector('.task-description').innerText;
         const tasks = Array.from(column.querySelectorAll('.task-wrapper')).map(wrapper => {
-            return {
+            const taskData = {
                 content: wrapper.querySelector('.task').innerText,
                 details: wrapper.dataset.details,
                 creator: wrapper.dataset.creator,
                 status: wrapper.dataset.status,
                 date: wrapper.dataset.date
             };
+            console.log('Task Data:', taskData);
+            return taskData;
         });
         const taskId = column.dataset.taskId;
 
@@ -275,6 +277,8 @@ function saveTasks() {
             description: taskDescription,
             tasks: tasks,
         };
+
+        console.log('Data to be sent:', data);
 
         fetch('save_task/', {
             method: 'POST',
@@ -377,6 +381,9 @@ function saveTaskDetails() {
 
         // Сохраняем данные в атрибуты текущей подзадачи
         currentTaskWrapper.querySelector('.task').innerText = taskName;
+
+        console.log(`querySelector в saveTaskDetails: ${ currentTaskWrapper.querySelector('.task').innerText} `);
+
         currentTaskWrapper.dataset.details = taskDetails;
         currentTaskWrapper.dataset.status = taskStatus;
         currentTaskWrapper.dataset.date = taskDate;

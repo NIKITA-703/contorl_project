@@ -31,7 +31,7 @@
                         {% for sub_task in task.get_tasks %}
                         <div class="task-wrapper" data-details="{{ sub_task.details }}" data-creator="{{ sub_task.creator }}" data-status="{{ sub_task.status }}" data-date="{{ sub_task.date }}">
                             <div class="task" contentEditable="true" onfocus="storePreviousValue(this)" onblur="checkIfEmpty(this, 'Новая задача')">
-                                {{ sub_task }}
+                                {{ sub_task.content }}
                             </div>
                         </div>
                         {% endfor %}
