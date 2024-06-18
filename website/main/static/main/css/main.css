@@ -742,3 +742,8 @@ form {
     display: inline-block;
     vertical-align: middle;
 }
+
+modal-content p, input, select, textarea {
+    margin-bottom: 15px;
+}
+
