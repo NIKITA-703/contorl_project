@@ -90,8 +90,9 @@
             <option value="не в процессе">не в процессе</option>
         </select>
         <textarea class="form-control" id="task-details" contentEditable="true"></textarea>
-        <p>Закрепить задачу:</p>
+        <p>Закрепить задачу за:</p>
         <select class="form-select" id="task-assignee">
+            <option value="">---</option>
             {% for user in users %}
                 <option value="{{ user.username }}">{{ user.username }}</option>
             {% endfor %}
