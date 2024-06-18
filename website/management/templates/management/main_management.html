@@ -29,7 +29,7 @@
                             Описание задачи
                         </div>
                         {% for sub_task in task.get_tasks %}
-                        <div class="task-wrapper" data-details="" data-creator="Admin" data-status="не в процессе" data-date="">
+                        <div class="task-wrapper" data-details="{{ sub_task.details }}" data-creator="{{ sub_task.creator }}" data-status="{{ sub_task.status }}" data-date="{{ sub_task.date }}">
                             <div class="task" contentEditable="true" onfocus="storePreviousValue(this)" onblur="checkIfEmpty(this, 'Новая задача')">
                                 {{ sub_task }}
                             </div>
@@ -82,7 +82,7 @@
     <div class="modal-content">
         <span class="close">&times;</span>
         <h2 id="task-name">Имя подзадачи</h2>
-        <p id="task-creator">Кто создал: </p>
+        <p id="task-creator">Автор: </p>
         <p>Статус задачи:</p>
         <select class="form-select" id="task-status-select">
             <option value="выполнено">выполнено</option>
@@ -95,6 +95,7 @@
 </div>
 
 <input id="current-user" type="hidden" value="{{ user.username }}">
+
 <!--<div class="management-container">-->
 <!--    <div class="controls">-->
 <!--        <button class="btn btn-success" type="button" onclick="createNewColumn()">Создать новую задачу</button>-->

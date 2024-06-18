@@ -68,7 +68,6 @@ function addTask(button) {
     saveTasks(); // Сохраняем задачи после добавления новой задачи
 }
 
-
 // Функция для переключения меню
 function toggleMenu(element) {
     const menu = element.nextElementSibling; // Получаем следующий элемент (меню)
@@ -101,7 +100,7 @@ document.addEventListener('click', function(event) {
 document.addEventListener('contextmenu', function(event) {
     if (event.target.classList.contains('task')) {
         event.preventDefault();
-        showContextMenu(event, event.target.closest('.task')); // Передаем событие и текущий элемент подзадачи
+        showContextMenu(event, event.target.closest('.task-wrapper')); // Передаем событие и текущий элемент подзадачи
     }
 });
 
@@ -259,7 +258,15 @@ function saveTasks() {
     columns.forEach(column => {
         const taskHeader = column.querySelector('h2').innerText;
         const taskDescription = column.querySelector('.task-description').innerText;
-        const tasks = Array.from(column.querySelectorAll('.task')).map(task => task.innerText);
+        const tasks = Array.from(column.querySelectorAll('.task-wrapper')).map(wrapper => {
+            return {
+                content: wrapper.querySelector('.task').innerText,
+                details: wrapper.dataset.details,
+                creator: wrapper.dataset.creator,
+                status: wrapper.dataset.status,
+                date: wrapper.dataset.date
+            };
+        });
         const taskId = column.dataset.taskId;
 
         const data = {
@@ -322,7 +329,7 @@ function openTaskDetails() {
     console.log(`Current User: ${currentUser}`);
 
     // Установка данных модального окна
-    const taskName = currentTaskWrapper.innerText || 'Неизвестно';
+    const taskName = currentTaskWrapper.querySelector('.task').innerText || 'Неизвестно';
     const taskDetails = currentTaskWrapper.dataset.details || '';
     const taskCreator = currentTaskWrapper.dataset.creator || currentUser || 'Неизвестно';
     const taskStatus = currentTaskWrapper.dataset.status || 'не в процессе';
@@ -337,7 +344,7 @@ function openTaskDetails() {
 
     document.getElementById('task-name').innerText = taskName;
     document.getElementById('task-details').value = taskDetails;
-    document.getElementById('task-creator').innerText = `Кто создал: ${taskCreator}`;
+    document.getElementById('task-creator').innerText = `Автор: ${taskCreator}`;
     document.getElementById('task-status-select').value = taskStatus;
     document.getElementById('task-date').innerText = `Дата создания: ${taskDate}`;
 
@@ -345,17 +352,37 @@ function openTaskDetails() {
 
     closeButton.onclick = function() {
         modal.style.display = 'none';
+        saveTaskDetails(); // Сохраняем изменения при закрытии модального окна
     }
 
     window.onclick = function(event) {
         if (event.target === modal) {
             modal.style.display = 'none';
+            saveTaskDetails(); // Сохраняем изменения при закрытии модального окна
         }
     }
 
     console.log(`Logged Task Creator: ${taskCreator}`);
 
     document.getElementById('context-menu').style.display = 'none'; // Скрываем меню
+}
+
+// Функция для сохранения деталей задачи
+function saveTaskDetails() {
+    if (currentTaskWrapper) {
+        const taskName = document.getElementById('task-name').innerText;
+        const taskDetails = document.getElementById('task-details').value;
+        const taskStatus = document.getElementById('task-status-select').value;
+        const taskDate = document.getElementById('task-date').innerText;
+
+        // Сохраняем данные в атрибуты текущей подзадачи
+        currentTaskWrapper.querySelector('.task').innerText = taskName;
+        currentTaskWrapper.dataset.details = taskDetails;
+        currentTaskWrapper.dataset.status = taskStatus;
+        currentTaskWrapper.dataset.date = taskDate;
+
+        saveTasks(); // Сохраняем изменения задач
+    }
 }
 
 

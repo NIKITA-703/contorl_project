@@ -8,7 +8,7 @@ class Task(models.Model):
     title = models.CharField(max_length=255, verbose_name='Название задачи')
     description = models.TextField(verbose_name='Описание задачи', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
-    tasks = models.TextField(verbose_name='Список задач', blank=True, null=True)
+    tasks = models.JSONField(verbose_name='Список задач', blank=True, null=True, default=list)
 
     class Meta:
         verbose_name = 'Задача'
@@ -19,14 +19,18 @@ class Task(models.Model):
 
     def get_tasks(self):
         if self.tasks:
-            try:
-                return json.loads(self.tasks)
-            except json.JSONDecodeError:
-                return []
+            if isinstance(self.tasks, str):
+                try:
+                    return json.loads(self.tasks)
+                except json.JSONDecodeError:
+                    return []
+            elif isinstance(self.tasks, list):
+                return self.tasks
         return []
 
     def set_tasks(self, tasks_list):
         if isinstance(tasks_list, list):
-            self.tasks = json.dumps(tasks_list)
+            self.tasks = tasks_list
         else:
-            self.tasks = json.dumps(tasks_list.split('\n'))
+            self.tasks = tasks_list.split('\n')
+        self.save()

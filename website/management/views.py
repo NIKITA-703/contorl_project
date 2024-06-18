@@ -38,7 +38,9 @@ def delete_task(request, task_id):
     except Task.DoesNotExist:
         return JsonResponse({'status': 'failed', 'message': 'Task not found'}, status=404)
 
+
 @csrf_exempt
+@login_required
 def save_task(request):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -48,20 +50,19 @@ def save_task(request):
         tasks = data.get('tasks')
 
         if task_id:
-            task = Task.objects.get(id=task_id)
+            task = Task.objects.get(id=task_id, user=request.user)
             task.title = title
             task.description = description
-            task.tasks = json.dumps(tasks, ensure_ascii=False)
+            task.set_tasks(tasks)
         else:
             task = Task.objects.create(
                 user=request.user,
                 title=title,
                 description=description,
-                tasks=json.dumps(tasks, ensure_ascii=False)
+                tasks=tasks
             )
 
         task.save()
-
         return JsonResponse({'status': 'success', 'task_id': task.id})
     return JsonResponse({'status': 'failed'}, status=400)
 
@@ -81,6 +82,36 @@ def get_task_details(request, task_id):
     except Task.DoesNotExist:
         return JsonResponse({'status': 'failed', 'message': 'Task not found'}, status=404)
 
+
+@csrf_exempt
+@login_required
+def update_subtask(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        task_id = data.get('task_id')
+        subtask_index = data.get('subtask_index')
+        subtask_content = data.get('content')
+        subtask_details = data.get('details')
+        subtask_creator = data.get('creator')
+        subtask_status = data.get('status')
+        subtask_date = data.get('date')
+
+        try:
+            task = Task.objects.get(id=task_id, user=request.user)
+            subtasks = task.get_tasks()
+            subtasks[subtask_index] = {
+                'content': subtask_content,
+                'details': subtask_details,
+                'creator': subtask_creator,
+                'status': subtask_status,
+                'date': subtask_date
+            }
+            task.set_tasks(subtasks)
+            task.save()
+            return JsonResponse({'status': 'success'})
+        except Task.DoesNotExist:
+            return JsonResponse({'status': 'failed', 'message': 'Task not found'}, status=404)
+    return JsonResponse({'status': 'failed', 'message': 'Invalid request method'}, status=400)
 
 # # Основное представление для управления задачами
 # @login_required
