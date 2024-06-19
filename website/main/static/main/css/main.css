@@ -733,7 +733,6 @@ form {
     box-sizing: border-box;
 }
 
-
 .avatar {
     width: 40px;
     height: 40px;
@@ -743,7 +742,6 @@ form {
     vertical-align: middle;
 }
 
-modal-content p, input, select, textarea {
+.modal-content p, input, select, textarea {
     margin-bottom: 15px;
 }
-

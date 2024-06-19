@@ -6,7 +6,7 @@ from django.views.generic import DetailView
 
 def index(request):
     data = {
-        'title': 'Главная страница ╰(*°▽°*)╯',
+        'title': 'Главная страница ᕦ(ò_óˇ)ᕤ ',
         'values': ['Some', 'Tyt', 'Kak']
     }
     return render(request, 'main/index.html', data)
