@@ -1,43 +1,16 @@
 {% extends 'main/layout.html' %}
-{% load static %}
-
-{% block title %} Вход {% endblock %}
-
+{% block title %}Войти{% endblock %}
 {% block content %}
-    <div class="login-container">
-        <h1>Войти</h1>
-        <form method="post" action="{% url 'user:login' %}">
-            {% csrf_token %}
-<!--            <span>{{ error }}</span><br>  -->
-                {% if request.GET.next %}
-                <input type="hidden" name="text" value="{{ request.GET.next }}">
-            {% endif %}
-
-            <input type="text" placeholder="Логин" name="username" id="id_username" class="form-control" autofocus
-                   value="{{ forms.username.value }}"
-                   required> <br>
-
-            {% if form.username.errors %}
-                <div class="alert alert-danger alert-dismissible fade show">{{form.username.errors}}</div>
-            {% endif %}
-
-            <input type="password" placeholder="Пароль" name="password" id="id_password" class="form-control" required> <br>
-
-            {% if form.password.errors %}
-                <div class="alert alert-danger alert-dismissible fade show">{{form.password.errors}}</div>
-            {% endif %}
-
-            {% comment %}
-            {% for item in form %}
-                {{ item }}
-            {% endfor %}
-            {% endcomment %}
-
-
-            {% comment %} {{ form.username }} {% endcomment %}
-
-            {% comment %} {{ form.password }} {% endcomment %}
-            <button class="btn btn-success" type="submit">Войти</button>
-        </form>
-    </div>
+<div class="auth-layout">
+    <section class="auth-intro"><span class="eyebrow">МЕНЬШЕ ХАОСА. БОЛЬШЕ ЯСНОСТИ.</span><h1>Большие идеи.<br>Понятные шаги.</h1><p>Соберите задачи, команду и планы в одном пространстве. И двигайтесь вперёд — в своём потоке.</p>
+    <div class="auth-illustration" aria-hidden="true"><div class="mini-column"><i></i><span>Идея</span><div class="mini-card">Спланировать запуск <b>↗</b></div><div class="mini-card">Собрать команду <b>↗</b></div></div><div class="mini-column"><i></i><span>Результат</span><div class="mini-card success">✓ Всё получилось</div><div class="mini-progress"></div></div></div>
+    <span class="auth-caption">От первой идеи до последней галочки.</span></section>
+    <section class="auth-card"><span class="eyebrow">С ВОЗВРАЩЕНИЕМ</span><h2>Войти в пространство</h2><p class="muted">Ваши проекты уже здесь.</p>
+    <form method="post" class="stack-form">{% csrf_token %}<input type="hidden" name="next" value="{{ next }}">
+    {{ form.non_field_errors }}
+    {% for field in form %}<div class="field"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{{ field.errors }}</div>{% endfor %}
+    <button class="button primary full" type="submit">Войти <span aria-hidden="true">→</span></button></form>
+    <p class="auth-switch">Первый раз здесь? <a href="{% url 'user:registration' %}">Создать аккаунт</a></p>
+    </section>
+</div>
 {% endblock %}

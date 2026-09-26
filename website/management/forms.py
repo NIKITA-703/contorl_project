@@ -1,29 +1,35 @@
+import re
 from django import forms
-from .models import Task
-import json
+from django.db.models import Q
+from .models import Card, Project
+from users.models import User
 
 
-class TaskForm(forms.ModelForm):
+class ProjectForm(forms.ModelForm):
     class Meta:
-        model = Task
-        fields = ['title', 'description', 'tasks']
-        widgets = {
-            'tasks': forms.HiddenInput()
-        }
+        model = Project
+        fields = ['title', 'description', 'color']
+
+    def clean_color(self):
+        value = self.cleaned_data['color']
+        if not re.fullmatch(r'#[0-9a-fA-F]{6}', value):
+            raise forms.ValidationError('Выберите корректный цвет.')
+        return value
 
 
-class TaskAdminForm(forms.ModelForm):
+class CardForm(forms.ModelForm):
     class Meta:
-        model = Task
-        fields = '__all__'
+        model = Card
+        fields = ['title', 'description', 'column', 'assignee', 'priority', 'label', 'start_date', 'due_date']
 
-    def __init__(self, *args, **kwargs):
-        super(TaskAdminForm, self).__init__(*args, **kwargs)
-        if self.instance and self.instance.tasks:
-            tasks_list = json.loads(self.instance.tasks)
-            self.fields['tasks'].initial = "\n".join(tasks_list)
+    def __init__(self, *args, project, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['column'].queryset = project.columns.all()
+        self.fields['assignee'].queryset = User.objects.filter(Q(projects=project) | Q(pk=project.owner_id)).distinct()
 
-    def clean_tasks(self):
-        tasks_data = self.cleaned_data['tasks']
-        tasks_list = tasks_data.splitlines()
-        return json.dumps(tasks_list, ensure_ascii=False)
+    def clean(self):
+        values = super().clean()
+        start, due = values.get('start_date'), values.get('due_date')
+        if start and due and start > due:
+            self.add_error('due_date', 'Дедлайн не может быть раньше даты начала.')
+        return values

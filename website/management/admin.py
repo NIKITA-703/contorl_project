@@ -1,30 +1,19 @@
 from django.contrib import admin
-from django.core.exceptions import ValidationError
-
-from .forms import TaskAdminForm
-from .models import Task
-import json
+from .models import Project, BoardColumn, Card, ChecklistItem, Comment, Activity, Task
 
 
-class TaskAdmin(admin.ModelAdmin):
-    list_display = ['title', 'user', 'created_at']
-
-    def save_model(self, request, obj, form, change):
-        if isinstance(obj.tasks, list):
-            obj.tasks = json.dumps(obj.tasks)  # сериализуем список в строку
-        super().save_model(request, obj, form, change)
-
-    def get_form(self, request, obj=None, **kwargs):
-        form = super().get_form(request, obj, **kwargs)
-        if obj and isinstance(obj.tasks, str):
-            try:
-                obj.tasks = json.loads(obj.tasks)  # десериализуем строку в список
-            except json.JSONDecodeError:
-                raise ValidationError("Invalid JSON format")
-        return form
+@admin.register(Project)
+class ProjectAdmin(admin.ModelAdmin):
+    list_display = ['title', 'owner', 'created_at']
+    filter_horizontal = ['members']
+    search_fields = ['title']
 
 
-admin.site.register(Task, TaskAdmin)
+@admin.register(Card)
+class CardAdmin(admin.ModelAdmin):
+    list_display = ['title', 'column', 'assignee', 'priority', 'due_date']
+    list_filter = ['priority', 'column__project']
+    search_fields = ['title']
 
 
-# admin.site.register(Task)
+admin.site.register([BoardColumn, ChecklistItem, Comment, Activity, Task])

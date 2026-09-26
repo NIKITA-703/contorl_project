@@ -1,299 +1,50 @@
 {% extends 'main/layout.html' %}
 {% load static %}
-
-{% block title %} {{ title }} {% endblock %}
-
-{% block content %}
-<div class="management-container">
-    <div class="controls">
-        <button class="btn btn-success" type="button" onclick="createNewColumn()">Создать новую задачу</button>
-    </div>
-    <div class="columns-wrapper">
-        <div class="columns-container">
-            {% for task in tasks %}
-            <div class="column-wrapper">
-                <div class="column" data-task-id="{{ task.id }}">
-                    <div class="task-header">
-                        <h2 ondblclick="renameColumnInline(this)">{{ task.title }}</h2>
-                        <div class="dropdown">
-                            <i class="bi bi-three-dots-vertical" onclick="toggleMenu(this)"></i>
-                            <div class="dropdown-menu">
-                                <button class="dropdown-item" onclick="renameColumn(this)">Переименовать задачу</button>
-                                <button class="dropdown-item" onclick="deleteColumn(this)">Удалить задачу</button>
-                            </div>
-                        </div>
-                    </div>
-                    <span class="add-task" onclick="addTask(this)">+ Добавить задачу</span>
-                    <div class="task-list">
-                        <div class="task-description" contentEditable="true" onfocus="storePreviousValue(this)" onblur="checkIfEmpty(this, 'Описание задачи')">
-                            Описание задачи
-                        </div>
-                        {% for sub_task in task.get_tasks %}
-                        <div class="task-wrapper" data-details="{{ sub_task.details }}" data-creator="{{ sub_task.creator }}" data-status="{{ sub_task.status }}" data-date="{{ sub_task.date }}">
-                            <div class="task" contentEditable="true" onfocus="storePreviousValue(this)" onblur="checkIfEmpty(this, 'Новая задача')">
-                                {{ sub_task.content }}
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
+{% block title %}{{ active_project.title|default:'Рабочее пространство' }}{% endblock %}
+{% block body_class %}workspace-page{% endblock %}
+{% block shell %}
+<div class="workspace">
+    <aside class="sidebar" id="sidebar">
+        <a class="brand" href="{% url 'management:main_management' %}"><span class="brand-mark">п</span>поток<span class="brand-dot">.</span><span class="brand-label">WORKSPACE</span></a>
+        <div class="space-switch"><span class="space-icon">П</span><div><strong>Моё пространство</strong><small>Всё начинается с идеи</small></div></div>
+        <div class="nav-label">РАБОЧЕЕ ПРОСТРАНСТВО</div>
+        <nav class="side-nav">
+            <button data-action="view" data-view="board" class="active"><svg class="icon"><use href="#i-board"/></svg>Доска проекта</button>
+            <button data-action="my-tasks"><svg class="icon"><use href="#i-circle-check"/></svg>Мои задачи<span id="my-count" class="nav-count">0</span></button>
+            <button data-action="view" data-view="overview"><svg class="icon"><use href="#i-chart"/></svg>Обзор проекта</button>
+            <button data-action="team"><svg class="icon"><use href="#i-users"/></svg>Команда</button>
+        </nav>
+        <div class="nav-label project-label">ПРОЕКТЫ<button class="icon-button" data-action="new-project" aria-label="Создать проект"><svg class="icon"><use href="#i-plus"/></svg></button></div>
+        <nav class="project-nav" id="project-nav" aria-label="Проекты"></nav>
+        <button class="new-project-link" data-action="new-project"><svg class="icon"><use href="#i-plus"/></svg>Новый проект</button>
+        <div class="sidebar-bottom"><div class="sidebar-note"><span class="note-orbit">✳</span><strong>Шаг за шагом.</strong><p>Большие результаты<br>начинаются с маленьких задач.</p></div>
+        <a class="sidebar-help" href="{% url 'main:about' %}">О пространстве <span>↗</span></a>
+        <div class="user-panel"><a href="{% url 'user:profile' %}" class="user-link">{% if user.image %}<img class="avatar" src="{{ user.image.url }}" alt="">{% else %}<span class="avatar">{{ user.username|first|upper }}</span>{% endif %}<span><strong>{{ user.first_name|default:user.username }}</strong><small>Мой профиль</small></span></a><form method="post" action="{% url 'user:logout' %}">{% csrf_token %}<button class="icon-button" title="Выйти" aria-label="Выйти"><svg class="icon"><use href="#i-logout"/></svg></button></form></div></div>
+    </aside>
+    <button class="sidebar-backdrop" data-action="toggle-sidebar" aria-label="Закрыть меню"></button>
+    <main class="workspace-main" id="main-content">
+        <header class="topbar"><div class="breadcrumbs"><button class="icon-button mobile-menu" data-action="toggle-sidebar" aria-label="Открыть меню"><svg class="icon"><use href="#i-menu"/></svg></button><svg class="icon"><use href="#i-grid"/></svg><span>Рабочее пространство</span><svg class="icon tiny"><use href="#i-chevron"/></svg><strong id="breadcrumb-project">Проекты</strong></div><div class="topbar-right"><span class="sync-status" id="sync-status"><i></i>Все изменения сохранены</span><button class="icon-button" data-action="refresh" title="Обновить доску" aria-label="Обновить доску"><svg class="icon"><use href="#i-refresh"/></svg></button><span class="avatar small">{{ user.username|first|upper }}</span></div></header>
+        <div id="project-header" class="project-header"></div>
+        <div id="project-tabs" class="project-tabs" aria-label="Представления">
+            <div class="view-tabs" role="tablist" aria-label="Вид проекта">
+                <button role="tab" data-action="view" data-view="board" class="active"><svg class="icon"><use href="#i-board"/></svg>Доска</button>
+                <button role="tab" data-action="view" data-view="list"><svg class="icon"><use href="#i-list"/></svg>Список</button>
+                <button role="tab" data-action="view" data-view="calendar"><svg class="icon"><use href="#i-calendar"/></svg>Календарь</button>
+                <button role="tab" data-action="view" data-view="timeline"><svg class="icon"><use href="#i-timeline"/></svg>Таймлайн</button>
+            </div><button class="button ghost activity-toggle" data-action="view" data-view="activity"><svg class="icon"><use href="#i-clock"/></svg>Активность</button>
         </div>
-    </div>
-</div>
-
-<template id="column-template">
-    <div class="column-wrapper">
-        <div class="column">
-            <div class="task-header">
-                <h2 ondblclick="renameColumnInline(this)">Новая задача</h2>
-                <div class="dropdown">
-                    <i class="bi bi-three-dots-vertical" onclick="toggleMenu(this)"></i>
-                    <div class="dropdown-menu">
-                        <button class="dropdown-item" onclick="renameColumn(this)">Переименовать задачу</button>
-                        <button class="dropdown-item" onclick="deleteColumn(this)">Удалить задачу</button>
-                    </div>
-                </div>
-            </div>
-            <span class="add-task" onclick="addTask(this)">+ Добавить задачу</span>
-            <div class="task-list">
-                <div class="task-description" contentEditable="true" onfocus="storePreviousValue(this)" onblur="checkIfEmpty(this, 'Описание задачи')">
-                    Описание задачи
-                </div>
-                <div class="task-wrapper" oncontextmenu="showContextMenu(event, this)">
-                    <div class="task" contentEditable="true" onfocus="storePreviousValue(this)" onblur="checkIfEmpty(this, 'Новая задача')">
-                        Новая задача
-                    </div>
-                </div>
-            </div>
+        <div id="toolbar" class="toolbar">
+            <label class="search-box"><svg class="icon"><use href="#i-search"/></svg><input id="search" type="search" placeholder="Найти задачу..." aria-label="Найти задачу"><kbd>/</kbd></label>
+            <div class="filters"><select id="assignee-filter" aria-label="Фильтр по исполнителю"><option value="">Все исполнители</option></select><select id="priority-filter" aria-label="Фильтр по приоритету"><option value="">Приоритет</option><option value="urgent">Срочный</option><option value="high">Высокий</option><option value="medium">Обычный</option><option value="low">Низкий</option></select><button class="button filter-button" id="overdue-filter" data-action="overdue" aria-pressed="false"><svg class="icon"><use href="#i-clock"/></svg>Просроченные</button><button class="button ghost" data-action="reset-filters" id="reset-filters" hidden>Сбросить</button></div>
+            <button class="icon-button export-button" data-action="export" aria-label="Экспорт задач в CSV" title="Экспорт в CSV"><svg class="icon"><use href="#i-download"/></svg></button>
         </div>
-    </div>
-</template>
-
-<!-- Контекстное меню для подзадач -->
-<div id="context-menu" class="dropdown-menu">
-    <div class="dropdown-item" onclick="openTaskDetails()">Открыть подзадачу</div>
-    <div class="dropdown-item" onclick="deleteSubtask()">Удалить подзадачу</div>
+        <div id="view-content" class="view-content" role="region" aria-label="Задачи проекта"></div>
+        <footer class="workspace-footer"><span id="result-count"></span><span>Маленькие шаги. Большие результаты.</span><span><kbd>N</kbd> новая задача</span></footer>
+    </main>
 </div>
-
-<!-- Модальное окно для деталей подзадачи -->
-<div id="task-modal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2 id="task-name">Имя подзадачи</h2>
-        <p id="task-creator">Автор: </p>
-        <p>Статус задачи:</p>
-        <select class="form-select" id="task-status-select">
-            <option value="выполнено">выполнено</option>
-            <option value="в процессе">в процессе</option>
-            <option value="не в процессе">не в процессе</option>
-        </select>
-        <textarea class="form-control" id="task-details" contentEditable="true"></textarea>
-        <p>Начало с:</p>
-        <input type="datetime-local" id="task-start-date" class="form-control">
-        <p>Конец по:</p>
-        <input type="datetime-local" id="task-end-date" class="form-control">
-        <p>Закрепить задачу за:</p>
-        <select class="form-select" id="task-assignee">
-            <option value="---">---</option>
-            {% for user in users %}
-                <option value="{{ user.username }}">{{ user.username }}</option>
-            {% endfor %}
-        </select>
-        <p>Дата создания: <span id="task-date"></span></p>
-    </div>
-</div>
-
-<input id="current-user" type="hidden" value="{{ user.username }}">
-
-
-<!--<div id="task-modal" class="modal">-->
-<!--    <div class="modal-content">-->
-<!--        <span class="close">&times;</span>-->
-<!--        <h2 id="task-name">Имя подзадачи</h2>-->
-<!--        <p id="task-creator">Автор: </p>-->
-<!--        <p>Статус задачи:</p>-->
-<!--        <select class="form-select" id="task-status-select">-->
-<!--            <option value="выполнено">выполнено</option>-->
-<!--            <option value="в процессе">в процессе</option>-->
-<!--            <option value="не в процессе">не в процессе</option>-->
-<!--        </select>-->
-<!--        <textarea class="form-control" id="task-details" contentEditable="true"></textarea>-->
-<!--        <p>Закрепить задачу за:</p>-->
-<!--        <select class="form-select" id="task-assignee">-->
-<!--            <option value="">-&#45;&#45;</option>-->
-<!--            {% for user in users %}-->
-<!--                <option value="{{ user.username }}">{{ user.username }}</option>-->
-<!--            {% endfor %}-->
-<!--        </select>-->
-<!--        <p>Дата создания: <span id="task-date"></span></p>-->
-<!--    </div>-->
-<!--</div>-->
-
-<!--<div class="management-container">-->
-<!--    <div class="controls">-->
-<!--        <button class="btn btn-success" type="button" onclick="createNewColumn()">Создать новую задачу</button>-->
-<!--    </div>-->
-<!--    <div class="columns-wrapper">-->
-<!--        <div class="columns-container">-->
-<!--            {% for task in tasks %}-->
-<!--            <div class="column-wrapper">-->
-<!--                <div class="column" data-task-id="{{ task.id }}">-->
-<!--                    <div class="task-header">-->
-<!--                        <h2 ondblclick="renameColumnInline(this)">{{ task.title }}</h2>-->
-<!--                        <div class="dropdown">-->
-<!--                            <i class="bi bi-three-dots-vertical" onclick="toggleMenu(this)"></i>-->
-<!--                            <div class="dropdown-menu">-->
-<!--                                <button class="dropdown-item" onclick="renameColumn(this)">Переименовать задачу</button>-->
-<!--                                <button class="dropdown-item" onclick="deleteColumn(this)">Удалить задачу</button> &lt;!&ndash; Добавлено &ndash;&gt;-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <span class="add-task" onclick="addTask(this)">+ Добавить задачу</span>-->
-<!--                    <div class="task-list">-->
-<!--                        <div class="task-description" contentEditable="true" onfocus="storePreviousValue(this)" onblur="checkIfEmpty(this, 'Описание задачи')">-->
-<!--                            Описание задачи-->
-<!--                        </div>-->
-<!--                        {% for sub_task in task.get_tasks %}-->
-<!--                        <div class="task" contentEditable="true" onfocus="storePreviousValue(this)" onblur="checkIfEmpty(this, 'Новая задача')">-->
-<!--                            {{ sub_task }}-->
-<!--                        </div>-->
-<!--                        {% endfor %}-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            {% endfor %}-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
-
-<!--<template id="column-template">-->
-<!--    <div class="column-wrapper">-->
-<!--        <div class="column">-->
-<!--            <div class="task-header">-->
-<!--                <h2 ondblclick="renameColumnInline(this)">Новая задача</h2>-->
-<!--                <div class="dropdown">-->
-<!--                    <i class="bi bi-three-dots-vertical" onclick="toggleMenu(this)"></i>-->
-<!--                    <div class="dropdown-menu">-->
-<!--                        <button class="dropdown-item" onclick="renameColumn(this)">Переименовать задачу</button>-->
-<!--                        <button class="dropdown-item" onclick="deleteColumn(this)">Удалить задачу</button> &lt;!&ndash; Добавлено &ndash;&gt;-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <span class="add-task" onclick="addTask(this)">+ Добавить задачу</span>-->
-<!--            <div class="task-list">-->
-<!--                <div class="task-description" contentEditable="true" onfocus="storePreviousValue(this)" onblur="checkIfEmpty(this, 'Описание задачи')">-->
-<!--                    Описание задачи-->
-<!--                </div>-->
-<!--                <div class="task" contentEditable="true" onfocus="storePreviousValue(this)" onblur="checkIfEmpty(this, 'Новая задача')">-->
-<!--                    Новая задача-->
-<!--                </div>-->
-
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</template>-->
-
-
-
-
-
-
-
-
-<!--<div class="management-container">-->
-<!--    <div class="controls">-->
-<!--        <button class="btn btn-success" type="button" onclick="createNewColumn()">Создать новую задачу</button>-->
-<!--    </div>-->
-<!--    <div class="columns-wrapper">-->
-<!--        <div class="columns-container"></div>-->
-<!--    </div>-->
-<!--</div>-->
-
-<!--&lt;!&ndash; Шаблон для новой колонки &ndash;&gt;-->
-<!--<template id="column-template">-->
-<!--    <div class="column-wrapper">-->
-<!--        <div class="column">-->
-<!--            <div class="task-header">-->
-<!--               <h2 contenteditable="true">Новая задача</h2> &lt;!&ndash; <h2 ondblclick="renameColumnInline(this)">Новая задача</h2> &ndash;&gt;-->
-<!--                <div class="dropdown">-->
-<!--                    <i class="bi bi-three-dots-vertical" onclick="toggleMenu(this)"></i>-->
-<!--                    <div class="dropdown-menu">-->
-<!--                        <button class="dropdown-item" onclick="renameColumn(this)">Переименовать задачу</button>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <span class="add-task" onclick="addTask(this)">+ Добавить задачу</span>-->
-<!--            <div class="task-list">-->
-<!--                <div class="task" contentEditable="true" onfocus="storePreviousValue(this)" onblur="checkIfEmpty(this, 'Описание задачи')">-->
-<!--                    Описание задачи-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</template>-->
-
-
-
-
-
-
-<!--<div class="management-container">-->
-<!--    <div class="controls">-->
-<!--        <button class="btn btn-success" type="button" onclick="createNewColumn()">Создать новую задачу</button>-->
-<!--    </div>-->
-<!--    <div class="columns-container"></div>-->
-<!--</div>-->
-
-<!--&lt;!&ndash; Шаблон для новой колонки &ndash;&gt;-->
-<!--<template id="column-template">-->
-<!--    <div class="column">-->
-<!--        <div class="task-header">-->
-<!--            <h2 ondblclick="renameColumnInline(this)">Новая задача</h2>-->
-<!--            <div class="dropdown">-->
-<!--                <i class="bi bi-three-dots-vertical" onclick="toggleMenu(this)"></i>-->
-<!--                <div class="dropdown-menu">-->
-<!--                    <button class="dropdown-item" onclick="renameColumn(this)">Переименовать задачу</button>-->
-<!--                    <button class="dropdown-item" onclick="renameColumn(this)">Переименовать описание задачи</button>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <span class="add-task" onclick="addTask(this)">+ Добавить задачу</span>-->
-<!--        <div class="task-list">-->
-<!--            <div class="task">-->
-<!--                <p>Описание задачи</p>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</template>-->
-
-
-
-
-<!--    <div class="columns-container">-->
-<!--        <div class="column">-->
-<!--        <h3>New Column</h3>-->
-<!--        <button class="btn btn-success" type="submit" onclick="addNewTask(this)">Add task</button>-->
-<!--        <div class="tasks-container"></div>-->
-<!--        </div>-->
-<!--    </div>-->
-
-<!--    <div class="management-container">-->
-<!--        <div class="controls">-->
-<!--            <button class="btn btn-success" type="button" onclick="createNewColumn()">Create a new column</button>-->
-<!--        </div>-->
-<!--        <div class="columns-container"></div>-->
-<!--    </div>-->
-
-
-
-
-<!--<div class="container&#45;&#45;inline-flex">-->
-<!--    <div class="flex-child"></div>-->
-<!--    <div class="flex-child"></div>-->
-<!--    <div class="flex-child"></div>-->
-<!--</div>-->
-
+<dialog id="editor" class="editor-dialog" aria-labelledby="dialog-title"><div id="dialog-content"></div></dialog>
+<div class="toast-container" id="toasts" aria-live="polite"></div>
+{{ initial|json_script:'workspace-data' }}
+<noscript><p class="notice">Для работы с доской включите JavaScript в браузере.</p></noscript>
 {% endblock %}
-
+{% block scripts %}<script src="{% static 'main/js/workspace.js' %}" defer></script>{% endblock %}

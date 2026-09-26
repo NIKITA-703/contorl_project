@@ -1,21 +1,3 @@
 {% extends 'main/layout.html' %}
-
-{% block title  %} Новости на сайте {% endblock %}
-
-
-{% block content  %}
-    <div class="features">
-        <h1>Новости на сайте</h1>
-        {% if news %}
-            {% for el in news %}
-                <div class="alert alert-primary">
-                    <h3>{{ el.title }}</h3>
-                    <p>{{ el.anons }}</p>
-                    <a href="{% url 'news-detail' el.id %}" class="btn btn-warning">Читать дальше</a>
-                </div>
-            {% endfor %}
-        {% else %}
-            <p>У вас нет записей !</p>
-        {% endif %}
-    </div>
-{% endblock %}
+{% block title %}Новости{% endblock %}
+{% block content %}<div class="view-section-header"><h1>Новости проекта</h1>{% if perms.news.add_articles %}<a class="button primary" href="{% url 'news:create' %}">Написать новость</a>{% endif %}</div>{% for article in news %}<article class="panel" style="margin-bottom:20px"><p class="eyebrow">{{ article.date|date:'d.m.Y' }}</p><h2>{{ article.title }}</h2><p class="muted">{{ article.anons }}</p><a class="text-link" href="{% url 'news:news-detail' article.pk %}">Читать →</a></article>{% empty %}<p class="muted">Здесь появятся новости проекта.</p>{% endfor %}{% endblock %}

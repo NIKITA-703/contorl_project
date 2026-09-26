@@ -1,93 +1,36 @@
 {% load static %}
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#202c29">
+    <title>{% block title %}Рабочее пространство{% endblock %} — Поток</title>
+    <link rel="icon" href="{% static 'main/img/mark.svg' %}" type="image/svg+xml">
     <link rel="stylesheet" href="{% static 'main/css/main.css' %}">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15/css/all.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    {% block head %}{% endblock %}
 </head>
-<body>
-
-
-    <aside>
-        <h3>Навигация</h3>
-        <ul>
-            <a href="{% url 'main:home' %}"><li><i class="bi bi-house-door"></i> Главная</li></a>
-            <a href="{% url 'main:about' %}"><li><i class="bi bi-person-fill"></i> Про нас</li></a>
-            {% if user.is_admin or user.is_staff %}
-                <a href="{% url 'news:news_home' %}"><li><i class="bi bi-newspaper"></i> Новости</li></a>
-                <a href="#"><li><i class="bi bi-telegram"></i> Контакты</li></a>
-                <a href="{% url 'news:create' %}"><li><button class="btn btn-info"><i class="bi bi-plus-circle-fill"></i> Создать запись </button></li></a>
-            {% endif %}
-            <a href="{% url 'management:main_management' %}"><li><i class="bi bi-briefcase"></i> Проект</li></a>
-        </ul>
-    </aside>
-    <div id="resizer" style="display: none;"></div> <!-- Скрываем элемент resizer -->
-    <header class="header">
-        <div class="header-content">
-<!--            <a href="#" class="logo">Логотип</a>-->
-            {% if user.is_authenticated %}
-                {% if request.path == '/management/' %}
-                <div class="other">
-                    <nav>
-                        <a href="#">Диаграмма Ганта</a>
-                        <a href="#">Календарь</a>
-                        <a href="#">Ресурсы</a>
-                    </nav>
-                </div>
-                {% endif %}
-                {% if not request.path == '/management/' %}
-                    <div class="other">
-                        <nav>
-                            <a href="#"> </a>
-                            <a href="#"> </a>
-                            <a href="#"> </a>
-                        </nav>
-                    </div>
-                {% endif %}
-            {% endif %}
-
-            {% if not user.is_authenticated %}
-            <div class="other">
-                    <nav>
-                        <a href="#"> </a>
-                        <a href="#"> </a>
-                        <a href="#"> </a>
-                    </nav>
-                </div>
-            {% endif %}
-            <div class="auth-links">
-                {% if not user.is_authenticated %}
-                    <a href="{% url 'user:registration' %}"><li><i class="bi bi-person-add"></i> Регистрация</li></a>
-                    <a href="{% url 'user:login' %}"><li><i class="bi bi-person"></i> Войти</li></a>
-                {% else %}
-                    {% if user.is_admin or user.is_staff %}
-                        <a href="{% url 'admin:index' %}"><li><i class="bi bi-pc-display"></i> Админка</li></a>
-                    {% endif %}
-                    <a href="{% url 'user:logout' %}"><li><i class="bi bi-box-arrow-left"></i> Выйти</li></a>
-                    <a href="{% url 'user:profile' %}"><li><i class="bi bi-person-circle"></i> Профиль</li></a>
-                {% endif %}
-            </div>
-        </div>
-    </header>
-
-    <main>
-        {% block content %}
-        {% endblock %}
-    </main>
-
-
-    <script>
-        // Добавляем класс 'loaded' к body после полной загрузки страницы
-        window.addEventListener('load', function() {
-            document.body.classList.add('loaded');
-        });
-    </script>
-    <script src="{% static 'main/js/resize.js' %}"></script>
-    <script src="{% static 'main/js/task.js' %}"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<body class="{% block body_class %}standard-page{% endblock %}">
+<a class="skip-link" href="#main-content">К содержимому</a>
+{% include 'main/icons.html' %}
+{% block shell %}
+<header class="site-header">
+    <a class="brand" href="{% url 'main:home' %}"><span class="brand-mark">п</span>поток<span class="brand-dot">.</span></a>
+    <nav>
+        {% if user.is_authenticated %}
+        <a href="{% url 'management:main_management' %}">Рабочее пространство</a>
+        <a href="{% url 'user:profile' %}">Профиль</a>
+        <form method="post" action="{% url 'user:logout' %}">{% csrf_token %}<button class="button ghost">Выйти</button></form>
+        {% else %}
+        <a href="{% url 'user:login' %}">Войти</a><a class="button" href="{% url 'user:registration' %}">Создать аккаунт</a>
+        {% endif %}
+    </nav>
+</header>
+<main id="main-content" class="standard-content">
+{% if messages %}<div class="messages">{% for message in messages %}<p class="notice">{{ message }}</p>{% endfor %}</div>{% endif %}
+{% block content %}{% endblock %}
+</main>
+{% endblock %}
+{% block scripts %}{% endblock %}
 </body>
 </html>

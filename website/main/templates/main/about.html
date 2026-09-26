@@ -1,13 +1,3 @@
 {% extends 'main/layout.html' %}
-
-{% block title  %}Страница о себе{% endblock %}
-
-
-{% block content  %}
-    <div class="features">
-        <h1>О нас</h1>
-        <p>Крутая компания</p>
-<!--        <button class="btn btn-danger">Нажми</button>-->
-    </div>
-
-{% endblock %}
+{% block title %}О пространстве{% endblock %}
+{% block content %}<section class="form-page"><span class="eyebrow">ПОТОК · УПРАВЛЕНИЕ ПРОЕКТАМИ</span><h1>От идеи до результата</h1><p class="muted">«Поток» помогает команде планировать работу, распределять задачи и видеть прогресс. Создайте проект, пригласите участников по логину и организуйте работу на доске.</p><p class="muted">Перетаскивайте карточки между этапами или меняйте колонку в деталях задачи. Добавляйте сроки, исполнителя, чек-листы и комментарии. Откройте календарь, таймлайн или обзор, чтобы увидеть общую картину.</p><p class="muted">Проект вырос из дипломной работы «Разработка интегрированной системы управления проектами на основе веб-технологий с использованием фреймворка Django и языка программирования Python».</p><a class="button primary" href="{% url 'management:main_management' %}">В рабочее пространство →</a><a class="text-link" href="{% url 'news:news_home' %}">Новости проекта →</a>{% if user.is_staff %}<br><a class="text-link" href="{% url 'admin:index' %}">Администрирование →</a>{% endif %}</section>{% endblock %}

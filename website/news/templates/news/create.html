@@ -1,20 +1,3 @@
 {% extends 'main/layout.html' %}
-
-{% block title  %} Форма добавление статьи {% endblock %}
-
-{% block content  %}
-    <div class="features">
-        <h1>Форма добавление статьи</h1>
-        <form method="post">
-            {% csrf_token %}
-            <div class="form-group">
-                {{ form.title }} <br>
-                {{ form.anons }} <br>
-                {{ form.full_text }} <br>
-                {{ form.date }} <br>
-            <button class="btn btn-success" type="submit"> Добавить статью</button>
-            <span>{{ error }}</span>
-            </div>
-        </form>
-    </div>
-{% endblock %}
+{% block title %}Редактор новости{% endblock %}
+{% block content %}<section class="form-page"><h1>Редактор новости</h1><form method="post" class="stack-form">{% csrf_token %}{{ form.non_field_errors }}{% for field in form %}<div class="field"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{{ field.errors }}</div>{% endfor %}<button class="button primary">Сохранить</button></form></section>{% endblock %}

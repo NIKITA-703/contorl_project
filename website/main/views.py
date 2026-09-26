@@ -1,21 +1,9 @@
-# Create your views here.
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
-from django.views.generic import DetailView
+from django.shortcuts import redirect, render
 
 
 def index(request):
-    data = {
-        'title': 'Главная страница ᕦ(ò_óˇ)ᕤ ',
-        'values': ['Some', 'Tyt', 'Kak']
-    }
-    return render(request, 'main/index.html', data)
+    return redirect('management:main_management' if request.user.is_authenticated else 'user:login')
 
 
 def about(request):
     return render(request, 'main/about.html')
-
-
-def test(request):
-    return render(request, 'users/test.html')
-

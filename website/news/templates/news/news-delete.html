@@ -1,15 +1,3 @@
 {% extends 'main/layout.html' %}
-
-{% block title  %} Удаление статей {% endblock %}
-
-
-{% block content  %}
-    <div class="features">
-        <h1>Удаление статей</h1>
-        <form method="post">
-            {% csrf_token %}
-            <button class="btn btn-success" type="submit"> Удалить статью</button><br>
-        </form>
-
-    </div>
-{% endblock %}
+{% block title %}Удаление новости{% endblock %}
+{% block content %}<section class="form-page"><h1>Удалить новость?</h1><p class="muted">{{ object.title }}</p><form method="post">{% csrf_token %}<button class="button danger">Удалить</button><a class="button" href="{% url 'news:news-detail' object.pk %}">Отмена</a></form></section>{% endblock %}
